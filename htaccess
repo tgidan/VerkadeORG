@@ -1,0 +1,18 @@
+<IfModule mod_headers.c>
+  # --- Baseline hardening ---
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "no-referrer"
+  Header always set X-Frame-Options "DENY"
+
+  # Permissions-Policy: deny powerful features your portfolio doesn't need
+  Header always set Permissions-Policy "accelerometer=(), autoplay=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
+
+  # --- HSTS (only when HTTPS is active) ---
+  # mijn.host suggests this style (env=HTTPS). :contentReference[oaicite:2]{index=2}
+  # Start WITHOUT includeSubDomains if you're not sure all subdomains are HTTPS-ready.
+Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" env=HTTPS
+
+  # --- CSP (strict for a local-only static site) ---
+  # Allows only your own CSS/JS and same-origin images + data: (for small inline icons if needed)
+  Header always set Content-Security-Policy "default-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self'; font-src 'self'; upgrade-insecure-requests"
+</IfModule>
