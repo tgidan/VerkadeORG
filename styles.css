@@ -77,7 +77,6 @@ nav a:hover {
   display: grid;
   grid-template-columns: 3fr 1fr;
   gap: 5px;
-  margin-bottom: 5px
 }
 
 .hero-image img {
@@ -94,6 +93,7 @@ nav a:hover {
   grid-row: 2;
   /* This grid should cover two columns */
   grid-column: 1 / span 2;
+  margin-top: 10px
 }
 
 .hero-side {
