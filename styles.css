@@ -76,15 +76,23 @@ nav a:hover {
 .hero-grid {
   display: grid;
   grid-template-columns: 3fr 1fr;
-  gap: 5px;
+  column-gap: 5px;
+  row-gap: 10px; /* vertical spacing between rows */
 }
+
+.hero-image { grid-column: 1; grid-row: 1; }
+.hero-side  { grid-column: 2; grid-row: 1; }
 
 .hero-image img {
   width: 100%;
   height: auto;
   display: block;
-  border-radius: var(--radius); /* optional, matches cards */
-  grid-column: 1;
+  border-radius: var(--radius);
+}
+
+.hero-main  {
+  grid-column: 1 / -1; /* spans both columns */
+  grid-row: 2;
 }
 
 
@@ -94,11 +102,6 @@ nav a:hover {
   /* This grid should cover two columns */
   grid-column: 1 / span 2;
   margin-top: 10px
-}
-
-.hero-side {
-  grid-column: 2;
-  grid-row: 1
 }
 
 .card {
