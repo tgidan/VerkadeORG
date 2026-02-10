@@ -75,8 +75,29 @@ nav a:hover {
 
 .hero-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 3fr 1fr;
   gap: 20px;
+}
+
+.hero-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius); /* optional, matches cards */
+  grid-column: 1;
+}
+
+
+.hero-main {
+  grid-column: 1;
+  grid-row: 2;
+  /* This grid should cover two columns */
+  grid-column: 1 / span 2;
+}
+
+.hero-side {
+  grid-column: 2;
+  grid-row: 1
 }
 
 .card {
