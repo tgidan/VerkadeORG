@@ -29,22 +29,23 @@ export default function App() {
   const career = [
     {
       role: 'Software Test Developer',
-      company: 'Company Name',
-      location: 'Netherlands',
-      period: '2024 — Present',
+      company: 'Anago',
+      location: 'Netherlands, \'s Hertogenbosch',
+      period: 'Sept 2023 — Present',
       highlights: [
-        'Built and maintained Cypress E2E suites for critical flows.',
-        'Integrated CI/CD test gates and reporting.',
+        'Built and maintained Cypress E2E suites for dynamic web applications.',
+        'Implemented K6 load tests to measure API calls response times and reliability.',
         'Worked with developers to improve testability and reliability.',
+        'Great cook that made delicious meals for the entire company on a regular basis.',
       ],
     },
     {
       role: 'Cybersecurity Student (MSc)',
       company: 'TU Eindhoven',
       location: 'Eindhoven, NL',
-      period: '2023 — Present',
+      period: '2024 — Present',
       highlights: [
-        'Focus areas: web security, threat modeling, secure software engineering.',
+        'Focus areas: web security, threat modeling, secure software engineering, (quantum) cryptography.',
         'Hands-on labs in pentesting and defensive engineering.',
       ],
     },
