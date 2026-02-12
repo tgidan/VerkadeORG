@@ -9,3 +9,4 @@
 
   Run `npm run dev` to start the development server.
   
+  Run `./deploy.sh` to deploy on remote server. 
