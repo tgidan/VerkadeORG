@@ -26,6 +26,30 @@ export default function App() {
     },
   ];
 
+  const career = [
+    {
+      role: 'Software Test Developer',
+      company: 'Company Name',
+      location: 'Netherlands',
+      period: '2024 — Present',
+      highlights: [
+        'Built and maintained Cypress E2E suites for critical flows.',
+        'Integrated CI/CD test gates and reporting.',
+        'Worked with developers to improve testability and reliability.',
+      ],
+    },
+    {
+      role: 'Cybersecurity Student (MSc)',
+      company: 'TU Eindhoven',
+      location: 'Eindhoven, NL',
+      period: '2023 — Present',
+      highlights: [
+        'Focus areas: web security, threat modeling, secure software engineering.',
+        'Hands-on labs in pentesting and defensive engineering.',
+      ],
+    },
+  ];
+
   const writings = [
     'Threat modeling a small web app',
     'Testing APIs without breaking production',
@@ -61,7 +85,7 @@ export default function App() {
           </motion.div>
 
           <nav className="flex gap-8" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
-            {['About', 'Projects', 'Writing', 'Contact'].map((item) => (
+            {['About', 'Projects', 'Career', 'Writing', 'Contact'].map((item) => (
               <motion.button
                 key={item}
                 onClick={() => {
@@ -351,6 +375,68 @@ export default function App() {
                 <p style={{ fontFamily: 'Space Grotesk, sans-serif' }} className="text-gray-400">
                   {project.description}
                 </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Career Section */}
+      <section id="career" className="py-20 px-6 bg-[#0f1421]">
+        <div className="max-w-4xl mx-auto">
+          <motion.h2
+            style={{ fontFamily: 'Playfair Display, serif' }}
+            className="text-6xl mb-12"
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            Career <span className="text-cyan-400">_</span>
+          </motion.h2>
+
+          <div className="space-y-6">
+            {career.map((item, index) => (
+              <motion.div
+                key={`${item.role}-${item.company}-${item.period}`}
+                className="bg-[#1a1f35]/50 border border-white/5 rounded-xl p-6 hover:border-cyan-400/30 transition-all group"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.15 }}
+                whileHover={{ x: 10, boxShadow: '0 0 30px rgba(34, 211, 238, 0.18)' }}
+              >
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                  <div>
+                    <h3
+                      style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+                      className="text-2xl mb-1 group-hover:text-cyan-400 transition-colors"
+                    >
+                      {item.role}
+                    </h3>
+                    <p style={{ fontFamily: 'JetBrains Mono, monospace' }} className="text-sm text-gray-400">
+                      {item.company} • {item.location}
+                    </p>
+                  </div>
+
+                  <div
+                    style={{ fontFamily: 'JetBrains Mono, monospace' }}
+                    className="text-sm text-gray-400 sm:text-right"
+                  >
+                    {item.period}
+                  </div>
+                </div>
+
+                <ul className="mt-4 space-y-2">
+                  {item.highlights.map((h) => (
+                    <li key={h} className="flex items-start gap-3">
+                      <span className="text-cyan-400 mt-1">▸</span>
+                      <span style={{ fontFamily: 'Space Grotesk, sans-serif' }} className="text-gray-300">
+                        {h}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
               </motion.div>
             ))}
           </div>
