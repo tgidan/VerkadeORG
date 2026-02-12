@@ -1,133 +1,15 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="description" content="Daan Verkade — cybersecurity student & software test developer." />
-  <title>Daan Verkade | Verkade.org</title>
 
-  <!-- Keep everything local to allow a strict CSP -->
-  <link rel="stylesheet" href="/styles.css" />
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Personal Student Page Design</title>
+    </head>
 
-  <!-- Optional: reduce info leakage via referrers -->
-  <meta name="referrer" content="no-referrer" />
-</head>
-
-<body>
-  <header>
-    <div class="wrap nav">
-      <a class="brand" href="#top">
-        <!-- Create small image as logo of profile.jpeg -->
-        <img src="./assets/facePicture/facePicture.png" alt="Daan Verkade" class="logo"/>
-        <span>Daan Verkade</span>
-      </a>
-
-      <nav aria-label="Primary">
-        <ul>
-          <li><a href="#about">About</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#writing">Writing</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-      </nav>
-    </div>
-  </header>
-
-  <main id="top" class="wrap">
-    <section class="hero">
-      
-      <div class="hero-grid">
-        <div class="hero-image" aria-hidden="true">
-          <img src="./assets/profilePicture/profile.jpeg" alt="Daan Verkade"/>
-      </div>
-      <aside class="card hero-side" aria-label="Quick info">
-          <div class="side-block">
-            <strong>Status</strong>
-            <p>Available</p>
-          </div>
-          <div class="side-block">
-            <strong>Location</strong>
-            <p>Netherlands</p>
-            <p>Email: <a href="mailto:professional@verkade.org">professional@verkade.org</a></p>
-    
-          </div>
-        </aside>
-        <div class="card hero-main">
-          <h1>Cybersecurity student<br />& software test developer</h1>
-          <p class="tagline">
-            Hi and welcome to my webpage! I’m Daan Verkade, 
-            a cybersecurity student doing his master at the Technical University of Eindhoven. 
-          <br>
-            On this website you can find 
-            anything related to my professional work, education, projects,
-            hobbies, and part-time undertakings. Feel free to browse around 
-            and I put my email address at the bottom in case you want to 
-            reach out. 
-          <br><br>
-            Over time you will see new things being added 
-            to the website, depending on how much free time I have. Some plans include 
-            music writing ideas/band, cooking recipes I try out, Flipper-zero projects, 
-            educational side-projects that might be fun to host as a challenge. 
-          </p>
-
-          <div class="btns">
-            <a class="btn primary" href="#projects">See projects</a>
-            <a class="btn" href="#contact">Contact</a>
-            <a class="btn" href="https://github.com/" target="_blank" rel="noopener noreferrer">GitHub</a>
-          </div>
-
-          <div class="chips" aria-label="Highlights">
-            <span class="chip">Web Security</span>
-            <span class="chip">QA & Automation</span>
-            <span class="chip">K6</span>
-            <span class="chip">CI/CD</span>
-            <span class="chip">Cypress</span>
-            <span class="chip">Pentesting</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="about">
-      <h2>About</h2>
-      <p>
-        Hi, I’m Daan. I study cybersecurity and work as a software test developer.
-        I enjoy building secure, testable systems and learning by doing.
-      </p>
-    </section>
-
-    <section id="projects">
-      <h2>Projects</h2>
-      <ul class="project-list">
-        <li>
-          <strong>Project One</strong>
-          <p>Security or testing related project description.</p>
-        </li>
-        <li>
-          <strong>Project Two</strong>
-          <p>Another project with focus on reliability or automation.</p>
-        </li>
-      </ul>
-    </section>
-
-    <section id="writing">
-      <h2>Writing</h2>
-      <ul>
-        <li>Threat modeling a small web app</li>
-        <li>Testing APIs without breaking production</li>
-      </ul>
-    </section>
-
-    <section id="contact">
-      <h2>Contact</h2>
-      <p>Email: <a href="mailto:professional@verkade.org">professional@verkade.org</a></p>
-    </section>
-  </main>
-
-  <footer>
-    <p>© <span id="year"></span> Daan Verkade</p>
-  </footer>
-
-  <script src="/script.js" defer></script>
-</body>
-</html>
+    <body>
+      <div id="root"></div>
+      <script type="module" src="/src/main.tsx"></script>
+    </body>
+  </html>
+  
