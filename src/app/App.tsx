@@ -167,6 +167,10 @@ export default function App() {
               transition={{ duration: 0.8, delay: 1.1 }}
             >
               <motion.button
+                onClick={() => {
+                  setActiveSection('projects');
+                  document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+                }}
                 whileHover={{ scale: 1.05, boxShadow: '0 0 20px rgba(34, 211, 238, 0.5)' }}
                 whileTap={{ scale: 0.95 }}
                 className="px-6 py-3 bg-cyan-500 text-black rounded-lg flex items-center gap-2"
