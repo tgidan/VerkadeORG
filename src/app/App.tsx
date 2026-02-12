@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'motion/react';
 import { Github, Mail, MapPin, Code2, Terminal, Shield } from 'lucide-react';
-import profileImg from '@/assets/49a1785e771a49a87eb2223123bb7c7036f6a744.png';
+import profileImg from '@/assets/DVerkade.png';
 
 export default function App() {
   const [activeSection, setActiveSection] = useState('about');
