@@ -4,3 +4,4 @@ postcss.config.mjs
 README.md
 guidelines
 .env
+dist
