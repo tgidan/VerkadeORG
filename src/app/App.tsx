@@ -7,6 +7,7 @@ export default function App() {
   const [activeSection, setActiveSection] = useState('about');
 
   const gitLink = 'https://github.com/tgidan';
+  const mailToLink = 'mailto:professional@verkade.org';
 
   const skills = [
     'Web Security',
@@ -183,14 +184,17 @@ export default function App() {
                 <Terminal size={18} />
                 See projects
               </motion.button>
-              <motion.button
+                <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-6 py-3 border border-cyan-400/50 text-cyan-400 rounded-lg"
+                className="px-6 py-3 border border-cyan-400/50 text-cyan-400 rounded-lg cursor-pointer"
                 style={{ fontFamily: 'JetBrains Mono, monospace' }}
-              >
+                onClick={() => {
+                  window.location.href = mailToLink;
+                }}
+                >
                 Contact
-              </motion.button>
+                </motion.button>
               <motion.a
                 href={gitLink}
                 target="_blank"
@@ -251,7 +255,7 @@ export default function App() {
                 <div className="flex items-center gap-2 text-gray-300">
                   <Mail size={14} className="text-cyan-400" />
                   <a
-                    href="mailto:professional@verkade.org"
+                    href={mailToLink}
                     className="text-sm text-cyan-400 hover:underline"
                     style={{ fontFamily: 'JetBrains Mono, monospace' }}
                   >
@@ -511,7 +515,7 @@ export default function App() {
           >
             Email:{' '}
             <a
-              href="mailto:professional@verkade.org"
+              href={mailToLink}
               className="text-cyan-400 hover:underline"
               style={{ fontFamily: 'JetBrains Mono, monospace' }}
             >
@@ -538,7 +542,7 @@ export default function App() {
               <Github size={20} />
             </motion.a>
             <motion.a
-              href="mailto:professional@verkade.org"
+              href={mailToLink}
               whileHover={{ scale: 1.2, y: -3 }}
               className="text-gray-400 hover:text-cyan-400 transition-colors"
             >
