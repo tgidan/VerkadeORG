@@ -4,7 +4,6 @@ set -euo pipefail
 MAIN_BRANCH="main"
 DEPLOY_BRANCH="deploy"
 
-# Make sure we're in a git repo
 git rev-parse --is-inside-work-tree >/dev/null 2>&1
 
 # Ensure working tree clean
@@ -20,31 +19,39 @@ if [ "$CURRENT_BRANCH" != "$MAIN_BRANCH" ]; then
   git checkout "$MAIN_BRANCH"
 fi
 
-echo "Installing deps (if needed) and building..."
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+DIST_DIR="$REPO_ROOT/dist"
+
+echo "Installing deps and building..."
 npm ci
 npm run build
 
-# Create a temp dir with dist contents
-TMP_DIR="$(mktemp -d)"
-cp -R dist/* "$TMP_DIR"/
-
-echo "Switching to $DEPLOY_BRANCH..."
-if git show-ref --verify --quiet "refs/heads/$DEPLOY_BRANCH"; then
-  git checkout "$DEPLOY_BRANCH"
-else
-  git checkout --orphan "$DEPLOY_BRANCH"
+if [ ! -d "$DIST_DIR" ]; then
+  echo "ERROR: build did not produce $DIST_DIR"
+  exit 1
 fi
 
-echo "Cleaning deploy branch..."
+# Prepare a worktree for deploy branch
+WORKTREE_DIR="$(mktemp -d)"
+echo "Creating worktree at $WORKTREE_DIR..."
+if git show-ref --verify --quiet "refs/heads/$DEPLOY_BRANCH"; then
+  git worktree add "$WORKTREE_DIR" "$DEPLOY_BRANCH"
+else
+  git worktree add --orphan "$WORKTREE_DIR" "$DEPLOY_BRANCH"
+fi
+
+echo "Cleaning deploy worktree..."
+cd "$WORKTREE_DIR"
 git rm -rf . >/dev/null 2>&1 || true
 
-echo "Copying build output..."
-cp -R "$TMP_DIR"/* .
-rm -rf "$TMP_DIR"
+echo "Copying build output from $DIST_DIR ..."
+# Use dotglob so things like .nojekyll get copied too (if present)
+shopt -s dotglob
+cp -R "$DIST_DIR"/* .
+shopt -u dotglob
 
-# Ensure no stray dist folder got copied
-rm -rf dist || true
-rm -rf node_modules || true
+# Ensure no stray folders
+rm -rf dist node_modules || true
 
 echo "Committing + pushing..."
 git add -A
@@ -56,7 +63,9 @@ fi
 
 git push -u origin "$DEPLOY_BRANCH" --force
 
-echo "Switching back to $MAIN_BRANCH..."
-git checkout "$MAIN_BRANCH"
+echo "Cleaning up worktree..."
+cd "$REPO_ROOT"
+git worktree remove "$WORKTREE_DIR" --force
+rm -rf "$WORKTREE_DIR"
 
 echo "Done."

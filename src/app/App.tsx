@@ -9,10 +9,11 @@ export default function App() {
   const skills = [
     'Web Security',
     'QA & Automation',
-    'K8',
+    'K6',
     'CI/CD',
     'Cypress',
-    'Pentesting'
+    'Pentesting',
+    'Threat Modeling',
   ];
 
   const projects = [
