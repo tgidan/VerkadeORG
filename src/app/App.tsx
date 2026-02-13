@@ -6,6 +6,8 @@ import profileImg from '@/assets/DVerkade.png';
 export default function App() {
   const [activeSection, setActiveSection] = useState('about');
 
+  const gitLink = 'https://github.com/tgidan';
+
   const skills = [
     'Web Security',
     'QA & Automation',
@@ -190,7 +192,7 @@ export default function App() {
                 Contact
               </motion.button>
               <motion.a
-                href="https://github.com"
+                href={gitLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.1, rotate: 5 }}
@@ -527,7 +529,7 @@ export default function App() {
           </p>
           <div className="flex gap-4">
             <motion.a
-              href="https://github.com"
+              href={gitLink}
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.2, y: -3 }}
