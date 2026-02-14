@@ -36,9 +36,12 @@ WORKTREE_DIR="$(mktemp -d)"
 echo "Creating worktree at $WORKTREE_DIR..."
 if git show-ref --verify --quiet "refs/heads/$DEPLOY_BRANCH"; then
   git worktree add "$WORKTREE_DIR" "$DEPLOY_BRANCH"
+elif git show-ref --verify --quiet "refs/remotes/origin/$DEPLOY_BRANCH"; then
+  git worktree add "$WORKTREE_DIR" -b "$DEPLOY_BRANCH" "origin/$DEPLOY_BRANCH"
 else
-  git worktree add --orphan "$WORKTREE_DIR" "$DEPLOY_BRANCH"
+  git worktree add --orphan -b "$DEPLOY_BRANCH" "$WORKTREE_DIR"
 fi
+
 
 echo "Cleaning deploy worktree..."
 cd "$WORKTREE_DIR"
