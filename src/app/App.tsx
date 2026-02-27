@@ -21,7 +21,7 @@ export default function App() {
 
   const projects = [
     {
-      title: 'Project One',
+      title: 'TEST',
       description: 'Security or testing related project description.',
     },
     {
