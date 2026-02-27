@@ -58,14 +58,37 @@ export default function App() {
         'Great cook that made delicious meals for the entire company on a regular basis.',
       ],
     },
+  ];
+
+  const education = [
     {
-      role: 'Cybersecurity Student (MSc)',
-      company: 'TU Eindhoven',
+      program: 'Cybersecurity (MSc)',
+      institution: 'TU Eindhoven',
       location: 'Eindhoven, NL',
       period: 'Sept 2024 — Present',
       highlights: [
         'Focus areas: web security, threat modeling, secure software engineering, (quantum) cryptography.',
         'Hands-on labs in pentesting and defensive engineering.',
+      ],
+    },
+    {
+      program: 'Computer Science And Engineering (BSc)',
+      institution: 'TU Eindhoven',
+      location: 'Eindhoven, NL',
+      period: 'Sept 2019 — June 2024',
+      highlights: [
+        'Focus areas: software development, algorithms, data structures, computer architecture, operating systems, cryptography, pentesting, and web security.',
+        <>
+          Final project: ProofFlow. An abstract editor designed to help users in writing mathematical proofs, with the help of theorem prover languages such as Rocq and Lean4 using the Language Server Protocol. It works as a standalone editor, but additional repositories are necessary to be installed in order for features such as language support and VS Code support to function. You can find the repositories here:{' '}
+          <a
+            href="https://github.com/Moonlington/ProofFlow"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-cyan-400 hover:underline"
+          >
+            https://github.com/Moonlington/ProofFlow
+          </a>
+        </>,
       ],
     },
   ];
@@ -105,7 +128,7 @@ export default function App() {
           </motion.div>
 
           <nav className="flex gap-8" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
-            {['About', 'Projects', 'Career', 'Writing', 'Contact'].map((item) => (
+            {['About', 'Projects', 'Career', 'Education', 'Writing', 'Contact'].map((item) => (
               <motion.button
                 key={item}
                 onClick={() => {
@@ -466,6 +489,68 @@ export default function App() {
                   {item.highlights.map((h) => (
                     <li key={h} className="flex items-start gap-3">
                       <span className="text-cyan-400 mt-1">▸</span>
+                      <span style={{ fontFamily: 'Space Grotesk, sans-serif' }} className="text-gray-300">
+                        {h}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+            {/* Education Section */}
+      <section id="education" className="py-20 px-6 bg-[#0f1421]">
+        <div className="max-w-4xl mx-auto">
+          <motion.h2
+            style={{ fontFamily: 'Playfair Display, serif' }}
+            className="text-6xl mb-12"
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            Education <span className="text-purple-400">_</span>
+          </motion.h2>
+
+          <div className="space-y-6">
+            {education.map((item, index) => (
+              <motion.div
+                key={`${item.program}-${item.institution}-${item.period}`}
+                className="bg-[#1a1f35]/50 border border-white/5 rounded-xl p-6 hover:border-purple-400/30 transition-all group"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.15 }}
+                whileHover={{ x: 10, boxShadow: '0 0 30px rgba(168, 85, 247, 0.18)' }}
+              >
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                  <div>
+                    <h3
+                      style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+                      className="text-2xl mb-1 group-hover:text-purple-400 transition-colors"
+                    >
+                      {item.program}
+                    </h3>
+                    <p style={{ fontFamily: 'JetBrains Mono, monospace' }} className="text-sm text-gray-400">
+                      {item.institution} • {item.location}
+                    </p>
+                  </div>
+
+                  <div
+                    style={{ fontFamily: 'JetBrains Mono, monospace' }}
+                    className="text-sm text-gray-400 sm:text-right"
+                  >
+                    {item.period}
+                  </div>
+                </div>
+
+                <ul className="mt-4 space-y-2">
+                  {item.highlights.map((h, idx) => (
+                    <li key={`${item.program}-h-${idx}`} className="flex items-start gap-3">
+                      <span className="text-purple-400 mt-1">▸</span>
                       <span style={{ fontFamily: 'Space Grotesk, sans-serif' }} className="text-gray-300">
                         {h}
                       </span>
