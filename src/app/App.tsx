@@ -21,12 +21,27 @@ export default function App() {
 
   const projects = [
     {
-      title: 'TEST',
-      description: 'Security or testing related project description.',
+      title: 'Project ICARUS',
+      description: [
+        "Project ICARUS was a personal project I undertook to explore the capabilities of facial recognition and web scraping technologies.", 
+        "The idea was inspired by the concept of using facial recognition to identify individuals and gather information about them from publicly available sources on the internet.",
+        // "After seeing a video about someone creating glasses that can use facial recognition to identify people, I wanted to try building something similar myself.",
+        // "The goal was to create a system that could identify people from a picture taken by a webcam, and then store all associated information in a json file.",
+        // "As this project can be used maliciously, I will not share the code or go into too much detail about the implementation.",
+        // "I used OpenCV for face detection and a pre-trained model for face recognition. Then using PimEyes and some custom web scraping, I was able to gather information about a person (myself) from just a picture of their face.",
+        // "The current implementation is quite basic and can be easily improved. It can especially be made more dangerous by using data collected from the darkweb instead of just webscraping. However, I will not be pursuing this project",
+        // "further as I have already learned a lot from it and don't want to create something that can be easily abused or get in legal trouble myself.",
+        // "Note: I only tested this on individuals who provided consent and used publicly available data. Always respect privacy and legal boundaries when working on projects like this.",
+        // "This project taught me a lot about web scraping, and in general how easy it can be to find information about a person. "
+      ],    
     },
     {
-      title: 'Project Two',
-      description: 'Another project with focus on reliability or automation.',
+      title: 'Flipper Zero',
+      description: [
+        "Because of my interest in cybersecurity, and especially red teaming, I wanted to acquire a Flipper Zero. Although the tool is not very powerful and can easily be replaced by a laptop with the right software and hardware, ",
+        "it is a fun and versatile gadget that can be used for a variety of hacking and pentesting activities. Currently, I have been experimenting with BadUSB attacks and the WIFI GPIO module to learn more about these attack vectors and how they work.",
+        "In the future, I plan to explore more of the Flipper's capabilities and see how it can be used in different scenarios."
+      ]
     },
   ];
 
@@ -47,7 +62,7 @@ export default function App() {
       role: 'Cybersecurity Student (MSc)',
       company: 'TU Eindhoven',
       location: 'Eindhoven, NL',
-      period: '2024 — Present',
+      period: 'Sept 2024 — Present',
       highlights: [
         'Focus areas: web security, threat modeling, secure software engineering, (quantum) cryptography.',
         'Hands-on labs in pentesting and defensive engineering.',
@@ -384,9 +399,17 @@ export default function App() {
                 >
                   {project.title}
                 </h3>
-                <p style={{ fontFamily: 'Space Grotesk, sans-serif' }} className="text-gray-400">
-                  {project.description}
-                </p>
+                <div className="mt-3 space-y-3">
+                  {project.description.map((paragraph, i) => (
+                    <p
+                      key={`${project.title}-p-${i}`}
+                      style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+                      className="text-gray-400 leading-relaxed"
+                    >
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
               </motion.div>
             ))}
           </div>
