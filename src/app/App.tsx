@@ -17,6 +17,8 @@ export default function App() {
     'Cypress',
     'Pentesting',
     'Threat Modeling',
+    'Teaching',
+    'Mentoring',
   ];
 
     const career = [
@@ -468,30 +470,51 @@ export default function App() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-20 px-6">
-        <div className="max-w-4xl mx-auto">
-          <motion.h2
-            style={{ fontFamily: 'Playfair Display, serif' }}
-            className="text-6xl mb-8"
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            About <span className="text-cyan-400">_</span>
-          </motion.h2>
-          <motion.p
-            style={{ fontFamily: 'Space Grotesk, sans-serif' }}
-            className="text-xl text-gray-300 leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            Hi, I'm Daan. I study cybersecurity and work as a software test developer. I enjoy building secure, testable systems and learning by doing.
-          </motion.p>
-        </div>
-      </section>
+<section id="about" className="py-20 px-6">
+  <div className="max-w-4xl mx-auto">
+    <motion.h2
+      style={{ fontFamily: 'Playfair Display, serif' }}
+      className="text-6xl mb-8"
+      initial={{ opacity: 0, x: -30 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8 }}
+    >
+      About <span className="text-cyan-400">_</span>
+    </motion.h2>
+
+    <motion.div
+      style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+      className="text-xl text-gray-300 leading-relaxed space-y-6"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8, delay: 0.2 }}
+    >
+      <p>
+        Hi, I'm Daan. I study cybersecurity and work as a software test developer at Anago.
+        I have a passion for web security, pentesting, and teaching. I enjoy sharing my knowledge
+        and experiences with others, whether it's through mentoring, writing, or giving talks.
+        As you can probably notice from the webpage, I have a lot of hobbies and interest, and I like
+        to keep myself busy with various projects and activities.
+      </p>
+
+      <p>
+        From a professional interest, I am always looking for new opportunities to learn and grow in the field of cybersecurity.
+        I am especially interested in red teaming and offensive security, but I also have experience with defensive security
+        and secure software development. You can sometimes see me attending Capture The Flag (CTF) events, and in my free time
+        you can see me tinker on projects related to cybersecurity. Some of these projects can also be found on this webpage.
+        At some point in the future I aspire to also give lectures/workshops on cybersecurity related topics, as I really enjoy
+        teaching and sharing knowledge with others. So be sure to keep an eye on this future project of mine.
+      </p>
+
+      <p>
+        When I am not busy with cybersecurity, I also have a lot of other hobbies and interests.
+        I enjoy playing the guitar (funk, jazz, (prog) metal, and rock), cooking, playing golf, and started jogging.
+      </p>
+    </motion.div>
+  </div>
+</section>
 
       {/* Career Section */}
       <section id="career" className="py-20 px-6 bg-[#0f1421]">
