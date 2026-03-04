@@ -19,6 +19,154 @@ export default function App() {
     'Threat Modeling',
   ];
 
+    const career = [
+    {
+      role: 'Software Test Developer',
+      company: 'Anago',
+      location: 'Netherlands, \'s Hertogenbosch',
+      period: 'Sept 2023 - Present',
+      highlights: [
+        'Built and maintained Cypress E2E suites for dynamic web applications.',
+        'Implemented K6 load tests to measure API calls response times and reliability.',
+        'Worked with developers to improve testability and reliability.',
+        'Great cook that made delicious meals for the entire company on a regular basis.',
+      ],
+    },
+    {
+      role: 'Member PR team M&CS department',
+      company: 'TU/e',
+      location: 'Netherlands, Eindhoven',
+      period: 'Feb 2021 - Present',
+      highlights: [
+        'Told prospective students about the Computer Science and Engineering bachelor program at TU/e, and organized events to promote the program.',
+        'Additionally, I also told prospective students about the cybersecurity master program at TU/e, and organized events to promote the program.',
+        'Presenter at master open days',
+        'Participated videos for the campus tour and for the entrance exam of the bachelor program.',
+      ],
+    },
+    {
+      role: 'Board Year - Secretary',
+      company: 'GEWIS, study association for Computer Science and Engineering',
+      location: 'Netherlands, Eindhoven',
+      period: 'Jul 2022 - Jul 2023',
+      highlights: [
+        'Managed internal and external communications, including meeting minutes and newsletters',
+        'GDPR responsible, ensuring compliance with data protection regulations and handling data requests',
+        'Responsible for database management, including maintaining and updating the member database and ensuring data integrity',
+        'SNiC responsible, actively participating in organizing the annual SNiC conference, which included managing the SNiC committee, overseeing the day event, and making sure GEWIS was well represented at the meetings.',
+      ],
+    },
+    {
+      role: 'Internship - Mathematical Teacher',
+      company: 'Luzac Lyceum Eindhoven',
+      location: 'Netherlands, Eindhoven',
+      period: 'Sept 2021 - Apr 2022',
+      highlights: [
+        'Responsible for teaching 2nd year vmbo-t, havo and vwo students',
+        'Responsible for teaching 3th year vmbo-t, havo and vwo students',
+        'Also assisted in teaching 4th year vmbo-t students and 1st year vmbo-t, havo and vwo students',
+        'Provided extra lessons in Mathematics and Programming (Informatica) for students who needed extra help',
+        'Guided a student with his PWS (Profiel Werkstuk). Research topic: Attack vectors on humans in the field of cybersecurity.',
+      ],
+    },
+    {
+      role: 'Internship - Mathematical Teacher',
+      company: 'Aloysius de Roosten',
+      location: 'Netherlands, Eindhoven',
+      period: 'Feb 2020 - May 2021',
+      highlights: [
+        'This internship served to gain understanding of who I wanted to become as a teacher and what school I would like to work at.',
+        'Gave a few hours worth of mathematics classes to 3th year vmbo-t students.',
+        'Responsible for surveying students practicing for their mathematics exam and providing feedback on their performance and progress.',
+      ],
+    },
+    {
+      role: 'Active member',
+      company: 'GEWIS, study association for Computer Science and Engineering',
+      location: 'Netherlands, Eindhoven',
+      period: 'Oct 2019 - Present',
+      highlights: [
+        'First-Year Committee (Lorem Ipsum) - Chairman',
+        'First-Year Support - Chairman: organized activities and provided support for first-year students to help them integrate into the university/GEWIS community.',
+        'GEBEUN - Treasurer: Organized activities and DIY projects for the association. Also managed the budget for these activities and projects, ensuring that they were financially viable and aligned with the association\'s goals.',
+        'C4 - Secretary: Organized career related activities such as company visits, workshops, and lectures to help students prepare for their future careers. Managed communications and logistics for these events. For some time I was also in contact with companies such as Capgemini and PwC.',
+        'GEFLITST - Member: Committee that makes pictures of all events GEWIS organizes.',
+        'Intro Committee 2023 - Chairman: Organized the introduction week for new students, which included planning activities, coordinating with other committees, and ensuring a smooth and enjoyable experience for all participants.',
+        'Intro Committee 2022 - Vice-Chairman',
+        'AViCO - Member: Committee responsible for everything to do with audio and sound',
+        'KCC 2026 - Member: Responsible for checking the finances of the association.',
+      ],
+    },
+    {
+      role: 'Advisory Board Member',
+      company: 'SNiC (Stichting Nationaal Informatica Congres)',
+      location: 'Netherlands, Eindhoven',
+      period: 'Jul 2023 - Present',
+      highlights: [
+        'Here I try to provide input and advice on the organization of the annual SNiC conference, which is the largest student organized computer science conference in the Netherlands.',
+      ],
+    },
+    {
+      role: 'Active member',
+      company: 'Other assocations and communities',
+      location: 'Netherlands, Eindhoven',
+      period: '1 year',
+      highlights: [
+        'AEGEE Eindhoven - Chairman of PR committee: Responsible for promotion of activites and design of promotional material and merchandise.',
+        'Eindhoven Student Golf Association De Club - Treasurer Activities Committee: Organized monthly activity for all members to attend '
+      ],
+    },
+
+  ];
+
+  const education = [
+    {
+      program: 'Cybersecurity (MSc)',
+      institution: 'TU Eindhoven',
+      location: 'Eindhoven, NL',
+      period: 'Sept 2024 — Present',
+      highlights: [
+        'Focus areas: web security, threat modeling, secure software engineering, (quantum) cryptography.',
+        'Hands-on labs in pentesting and defensive engineering.',
+        'Internship at a Security Operation Centre (SOC) to gain real-world experience in cybersecurity operations.',
+      ],
+    },
+    {
+      program: 'Computer Science And Engineering (BSc)',
+      institution: 'TU Eindhoven',
+      location: 'Eindhoven, NL',
+      period: 'Sept 2019 — June 2024',
+      highlights: [
+        'Focus areas: software development, algorithms, data structures, computer architecture, operating systems, cryptography, pentesting, and web security.',
+        <>
+          Final project: ProofFlow. An abstract editor designed to help users in writing mathematical proofs, with the help of theorem prover languages such as Rocq and Lean4 using the Language Server Protocol. It works as a standalone editor, but additional repositories are necessary to be installed in order for features such as language support and VS Code support to function. You can find the repositories here:{' '}
+          <a
+            href="https://github.com/Moonlington/ProofFlow"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-cyan-400 hover:underline"
+          >
+            https://github.com/Moonlington/ProofFlow
+          </a>
+        </>,
+        'Minor in teaching Mathematics to High School students',
+      ],
+    },
+    {
+      program: 'High School - VWO',
+      institution: 'KSG De Breul',
+      location: 'Zeist, NL',
+      period: 'Sept 2012 — Jun 2019',
+      highlights: [
+        'Took courses in Mathematics, Physics, Computer Science (Informatica), and Chemistry.',
+        'Informatica project: Euro Truck Simulator 2 website for tracking and sharing truck routes and stats, built with PHP, MySQL, HTML, CSS, and JavaScript.',
+        'Informatica project: Snake game built with C# using only its graphics library and windows forms, without using any game engines or frameworks.',
+        'Physics project: Charging a phone with a bicycle dynamo.',
+        'Cambridge C2 Proficiency in English.',
+      ],
+    },
+  ];
+
   const projects = [
     {
       title: 'Project ICARUS',
@@ -45,57 +193,10 @@ export default function App() {
     },
   ];
 
-  const career = [
-    {
-      role: 'Software Test Developer',
-      company: 'Anago',
-      location: 'Netherlands, \'s Hertogenbosch',
-      period: 'Sept 2023 — Present',
-      highlights: [
-        'Built and maintained Cypress E2E suites for dynamic web applications.',
-        'Implemented K6 load tests to measure API calls response times and reliability.',
-        'Worked with developers to improve testability and reliability.',
-        'Great cook that made delicious meals for the entire company on a regular basis.',
-      ],
-    },
-  ];
 
-  const education = [
-    {
-      program: 'Cybersecurity (MSc)',
-      institution: 'TU Eindhoven',
-      location: 'Eindhoven, NL',
-      period: 'Sept 2024 — Present',
-      highlights: [
-        'Focus areas: web security, threat modeling, secure software engineering, (quantum) cryptography.',
-        'Hands-on labs in pentesting and defensive engineering.',
-      ],
-    },
-    {
-      program: 'Computer Science And Engineering (BSc)',
-      institution: 'TU Eindhoven',
-      location: 'Eindhoven, NL',
-      period: 'Sept 2019 — June 2024',
-      highlights: [
-        'Focus areas: software development, algorithms, data structures, computer architecture, operating systems, cryptography, pentesting, and web security.',
-        <>
-          Final project: ProofFlow. An abstract editor designed to help users in writing mathematical proofs, with the help of theorem prover languages such as Rocq and Lean4 using the Language Server Protocol. It works as a standalone editor, but additional repositories are necessary to be installed in order for features such as language support and VS Code support to function. You can find the repositories here:{' '}
-          <a
-            href="https://github.com/Moonlington/ProofFlow"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-cyan-400 hover:underline"
-          >
-            https://github.com/Moonlington/ProofFlow
-          </a>
-        </>,
-      ],
-    },
-  ];
 
   const writings = [
-    'Threat modeling a small web app',
-    'Testing APIs without breaking production',
+    '',
   ];
 
   return (
@@ -128,7 +229,7 @@ export default function App() {
           </motion.div>
 
           <nav className="flex gap-8" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
-            {['About', 'Projects', 'Career', 'Education', 'Writing', 'Contact'].map((item) => (
+            {['About', 'Career', 'Education', 'Projects', 'Writing', 'Contact'].map((item) => (
               <motion.button
                 key={item}
                 onClick={() => {
@@ -392,53 +493,6 @@ export default function App() {
         </div>
       </section>
 
-      {/* Projects Section */}
-      <section id="projects" className="py-20 px-6 bg-[#0f1421]">
-        <div className="max-w-4xl mx-auto">
-          <motion.h2
-            style={{ fontFamily: 'Playfair Display, serif' }}
-            className="text-6xl mb-12"
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            Projects <span className="text-purple-400">_</span>
-          </motion.h2>
-          <div className="space-y-6">
-            {projects.map((project, index) => (
-              <motion.div
-                key={project.title}
-                className="bg-[#1a1f35]/50 border border-white/5 rounded-xl p-6 hover:border-purple-400/30 transition-all group"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
-                whileHover={{ x: 10, boxShadow: '0 0 30px rgba(168, 85, 247, 0.2)' }}
-              >
-                <h3
-                  style={{ fontFamily: 'Space Grotesk, sans-serif' }}
-                  className="text-2xl mb-2 group-hover:text-purple-400 transition-colors"
-                >
-                  {project.title}
-                </h3>
-                <div className="mt-3 space-y-3">
-                  {project.description.map((paragraph, i) => (
-                    <p
-                      key={`${project.title}-p-${i}`}
-                      style={{ fontFamily: 'Space Grotesk, sans-serif' }}
-                      className="text-gray-400 leading-relaxed"
-                    >
-                      {paragraph}
-                    </p>
-                  ))}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Career Section */}
       <section id="career" className="py-20 px-6 bg-[#0f1421]">
         <div className="max-w-4xl mx-auto">
@@ -557,6 +611,53 @@ export default function App() {
                     </li>
                   ))}
                 </ul>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Projects Section */}
+      <section id="projects" className="py-20 px-6 bg-[#0f1421]">
+        <div className="max-w-4xl mx-auto">
+          <motion.h2
+            style={{ fontFamily: 'Playfair Display, serif' }}
+            className="text-6xl mb-12"
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            Projects <span className="text-purple-400">_</span>
+          </motion.h2>
+          <div className="space-y-6">
+            {projects.map((project, index) => (
+              <motion.div
+                key={project.title}
+                className="bg-[#1a1f35]/50 border border-white/5 rounded-xl p-6 hover:border-purple-400/30 transition-all group"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: index * 0.2 }}
+                whileHover={{ x: 10, boxShadow: '0 0 30px rgba(168, 85, 247, 0.2)' }}
+              >
+                <h3
+                  style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+                  className="text-2xl mb-2 group-hover:text-purple-400 transition-colors"
+                >
+                  {project.title}
+                </h3>
+                <div className="mt-3 space-y-3">
+                  {project.description.map((paragraph, i) => (
+                    <p
+                      key={`${project.title}-p-${i}`}
+                      style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+                      className="text-gray-400 leading-relaxed"
+                    >
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
               </motion.div>
             ))}
           </div>
