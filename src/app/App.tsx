@@ -217,40 +217,45 @@ export default function App() {
         transition={{ duration: 0.8, ease: 'easeOut' }}
         className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-[#0a0e1a]/70 border-b border-white/5"
       >
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <motion.div
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">          <motion.div
             className="flex items-center gap-3"
             whileHover={{ scale: 1.05 }}
           >
             <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-cyan-400/50">
               <img src={profileImg} alt="Profile" className="w-full h-full object-cover" />
             </div>
-            <span style={{ fontFamily: 'Space Grotesk, sans-serif' }} className="text-xl tracking-wide">
+            <span
+              style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+              className="text-base sm:text-xl tracking-wide"
+            >
               Daan <span className="text-cyan-400">Verkade</span>
             </span>
           </motion.div>
 
-          <nav className="flex gap-8" style={{ fontFamily: 'JetBrains Mono, monospace' }}>
-            {['About', 'Career', 'Education', 'Projects', 'Writing', 'Contact'].map((item) => (
-              <motion.button
-                key={item}
-                onClick={() => {
-                  setActiveSection(item.toLowerCase());
-                  document.getElementById(item.toLowerCase())?.scrollIntoView({ behavior: 'smooth' });
-                }}
-                className="text-sm hover:text-cyan-400 transition-colors relative"
-                whileHover={{ y: -2 }}
-              >
-                {item}
-                {activeSection === item.toLowerCase() && (
-                  <motion.div
-                    layoutId="activeSection"
-                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-cyan-400"
-                  />
-                )}
-              </motion.button>
-            ))}
-          </nav>
+         <nav
+          className="hidden md:flex gap-8"
+          style={{ fontFamily: 'JetBrains Mono, monospace' }}
+        >
+          {['About', 'Career', 'Education', 'Projects', 'Writing', 'Contact'].map((item) => (
+            <motion.button
+              key={item}
+              onClick={() => {
+                setActiveSection(item.toLowerCase());
+                document.getElementById(item.toLowerCase())?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="text-sm hover:text-cyan-400 transition-colors relative"
+              whileHover={{ y: -2 }}
+            >
+              {item}
+              {activeSection === item.toLowerCase() && (
+                <motion.div
+                  layoutId="activeSection"
+                  className="absolute -bottom-1 left-0 right-0 h-0.5 bg-cyan-400"
+                />
+              )}
+            </motion.button>
+          ))}
+        </nav>
         </div>
       </motion.header>
 
@@ -266,30 +271,29 @@ export default function App() {
             >
               <motion.h1
                 style={{ fontFamily: 'Playfair Display, serif' }}
-                className="text-7xl mb-4 leading-tight"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1, delay: 0.3 }}
+                className="text-4xl sm:text-5xl md:text-7xl mb-4 leading-tight"
               >
                 Cyber<span className="text-cyan-400">security</span>
               </motion.h1>
+
               <motion.h2
                 style={{ fontFamily: 'Space Grotesk, sans-serif' }}
-                className="text-5xl mb-6 text-gray-300"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1, delay: 0.5 }}
+                className="text-2xl sm:text-3xl md:text-5xl mb-6 text-gray-300"
               >
                 student
               </motion.h2>
-              <motion.div
-                className="flex items-baseline gap-3 mb-8"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1, delay: 0.7 }}
-              >
-                <span style={{ fontFamily: 'JetBrains Mono, monospace' }} className="text-xl text-cyan-400">&</span>
-                <h3 style={{ fontFamily: 'Space Grotesk, sans-serif' }} className="text-3xl">
+
+              <motion.div className="flex items-baseline gap-2 sm:gap-3 mb-8">
+                <span
+                  style={{ fontFamily: 'JetBrains Mono, monospace' }}
+                  className="text-base sm:text-xl text-cyan-400"
+                >
+                  &
+                </span>
+                <h3
+                  style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+                  className="text-xl sm:text-2xl md:text-3xl"
+                >
                   software test developer
                 </h3>
               </motion.div>
@@ -297,7 +301,7 @@ export default function App() {
 
             <motion.p
               style={{ fontFamily: 'Space Grotesk, sans-serif' }}
-              className="text-gray-400 text-lg mb-8 leading-relaxed"
+              className="text-sm sm:text-base md:text-lg text-gray-400 mb-8 leading-relaxed"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.9 }}
@@ -350,94 +354,111 @@ export default function App() {
           </div>
 
           {/* Right Side - Image & Status Card */}
-          <motion.div
-            className="relative"
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            <motion.div
-              className="relative rounded-2xl overflow-hidden border border-white/10"
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.3 }}
-            >
-              <img
-                src={profileImg}
-                alt="Daan Verkade"
-                className="w-full h-auto"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0e1a] via-transparent to-transparent" />
-            </motion.div>
+<motion.div
+  className="relative w-full max-w-md mx-auto md:max-w-none"
+  initial={{ opacity: 0, x: 50 }}
+  animate={{ opacity: 1, x: 0 }}
+  transition={{ duration: 0.8, delay: 0.4 }}
+>
+  <motion.div
+    className="relative rounded-2xl overflow-hidden border border-white/10"
+    whileHover={{ scale: 1.02 }}
+    transition={{ duration: 0.3 }}
+  >
+    <img
+      src={profileImg}
+      alt="Daan Verkade"
+      className="w-full h-auto object-cover"
+    />
+    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0e1a] via-transparent to-transparent" />
+  </motion.div>
 
-            {/* Floating Status Card */}
-            <motion.div
-              className="absolute -right-4 top-8 bg-[#1a1f35]/90 backdrop-blur-md border border-white/10 rounded-xl p-6 shadow-2xl"
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 1 }}
-              whileHover={{ scale: 1.05, boxShadow: '0 0 30px rgba(34, 211, 238, 0.3)' }}
-            >
-              <h3 style={{ fontFamily: 'JetBrains Mono, monospace' }} className="text-sm text-gray-400 mb-4">
-                Status
-              </h3>
-              <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-                  <span style={{ fontFamily: 'Space Grotesk, sans-serif' }} className="text-sm">
-                    Available
-                  </span>
-                </div>
-                <div className="flex items-center gap-2 text-gray-300">
-                  <MapPin size={14} className="text-cyan-400" />
-                  <span style={{ fontFamily: 'Space Grotesk, sans-serif' }} className="text-sm">
-                    Netherlands
-                  </span>
-                </div>
-                <div className="flex items-center gap-2 text-gray-300">
-                  <Mail size={14} className="text-cyan-400" />
-                  <a
-                    href={mailToLink}
-                    className="text-sm text-cyan-400 hover:underline"
-                    style={{ fontFamily: 'JetBrains Mono, monospace' }}
-                  >
-                    professional@verkade.org
-                  </a>
-                </div>
-              </div>
-            </motion.div>
+  {/* Status Card */}
+  <motion.div
+    className="
+      mt-4 w-full
+      bg-[#1a1f35]/90 backdrop-blur-md border border-white/10 rounded-xl p-4 shadow-2xl
+      md:w-auto md:min-w-[260px] md:max-w-[320px]
+      md:absolute md:-right-4 md:top-8 md:mt-0
+    "
+    initial={{ opacity: 0, x: 50 }}
+    animate={{ opacity: 1, x: 0 }}
+    transition={{ duration: 0.8, delay: 1 }}
+    whileHover={{ scale: 1.03, boxShadow: '0 0 30px rgba(34, 211, 238, 0.3)' }}
+  >
+    <h3
+      style={{ fontFamily: 'JetBrains Mono, monospace' }}
+      className="text-sm text-gray-400 mb-4"
+    >
+      Status
+    </h3>
 
-            {/* Floating Icons */}
-            <motion.div
-              className="absolute -left-8 bottom-20 bg-[#1a1f35]/80 backdrop-blur-sm border border-cyan-400/30 rounded-full p-4"
-              animate={{
-                y: [0, -10, 0],
-                rotate: [0, 5, 0],
-              }}
-              transition={{
-                duration: 3,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              }}
-            >
-              <Shield size={24} className="text-cyan-400" />
-            </motion.div>
+    <div className="space-y-3">
+      <div className="flex items-center gap-2">
+        <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+        <span
+          style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+          className="text-sm"
+        >
+          Available
+        </span>
+      </div>
 
-            <motion.div
-              className="absolute -right-8 bottom-40 bg-[#1a1f35]/80 backdrop-blur-sm border border-purple-400/30 rounded-full p-4"
-              animate={{
-                y: [0, -15, 0],
-                rotate: [0, -5, 0],
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: 'easeInOut',
-                delay: 0.5,
-              }}
-            >
-              <Code2 size={24} className="text-purple-400" />
-            </motion.div>
-          </motion.div>
+      <div className="flex items-center gap-2 text-gray-300">
+        <MapPin size={14} className="text-cyan-400 shrink-0" />
+        <span
+          style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+          className="text-sm"
+        >
+          Netherlands
+        </span>
+      </div>
+
+      <div className="flex items-center gap-2 text-gray-300 min-w-0">
+        <Mail size={14} className="text-cyan-400 shrink-0" />
+        <a
+          href={mailToLink}
+          className="text-sm text-cyan-400 hover:underline break-all"
+          style={{ fontFamily: 'JetBrains Mono, monospace' }}
+        >
+          professional@verkade.org
+        </a>
+      </div>
+    </div>
+  </motion.div>
+
+  {/* Floating Icons - desktop only */}
+  <motion.div
+    className="hidden md:block absolute -left-8 bottom-20 bg-[#1a1f35]/80 backdrop-blur-sm border border-cyan-400/30 rounded-full p-4"
+    animate={{
+      y: [0, -10, 0],
+      rotate: [0, 5, 0],
+    }}
+    transition={{
+      duration: 3,
+      repeat: Infinity,
+      ease: 'easeInOut',
+    }}
+  >
+    <Shield size={24} className="text-cyan-400" />
+  </motion.div>
+
+  <motion.div
+    className="hidden md:block absolute -right-8 bottom-40 bg-[#1a1f35]/80 backdrop-blur-sm border border-purple-400/30 rounded-full p-4"
+    animate={{
+      y: [0, -15, 0],
+      rotate: [0, -5, 0],
+    }}
+    transition={{
+      duration: 4,
+      repeat: Infinity,
+      ease: 'easeInOut',
+      delay: 0.5,
+    }}
+  >
+    <Code2 size={24} className="text-purple-400" />
+  </motion.div>
+</motion.div>
         </div>
       </section>
 
