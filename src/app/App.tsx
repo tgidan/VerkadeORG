@@ -146,9 +146,9 @@ export default function App() {
             href="https://github.com/Moonlington/ProofFlow"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-cyan-400 hover:underline"
+            className="text-cyan-400 hover:underline break-words"
           >
-            https://github.com/Moonlington/ProofFlow
+            ProofFlow GitHub repository
           </a>
         </>,
         'Minor in teaching Mathematics to High School students',
@@ -647,9 +647,15 @@ export default function App() {
 
                 <ul className="mt-4 space-y-2">
                   {item.highlights.map((h, idx) => (
-                    <li key={`${item.program}-h-${idx}`} className="flex items-start gap-3">
-                      <span className="text-purple-400 mt-1">▸</span>
-                      <span style={{ fontFamily: 'Space Grotesk, sans-serif' }} className="text-gray-300">
+                    <li
+                      key={`${item.program}-h-${idx}`}
+                      className="flex items-start gap-3 min-w-0"
+                    >
+                      <span className="text-purple-400 mt-1 shrink-0">▸</span>
+                      <span
+                        style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+                        className="text-gray-300 min-w-0 break-words overflow-hidden"
+                      >
                         {h}
                       </span>
                     </li>
