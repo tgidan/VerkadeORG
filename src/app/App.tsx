@@ -1,10 +1,27 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Github, Mail, MapPin, Code2, Terminal, Shield } from 'lucide-react';
 import profileImg from '@/assets/DVerkade.png';
+import { Terminal as TerminalPanel } from './components/Terminal';
+import { MatrixRain } from './components/MatrixRain';
 
 export default function App() {
   const [activeSection, setActiveSection] = useState('about');
+  const [terminalOpen, setTerminalOpen] = useState(false);
+  const [hueRotate, setHueRotate] = useState<number | null>(null);
+  const [isFlipped, setIsFlipped] = useState(false);
+  const [matrixOn, setMatrixOn] = useState(false);
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.key === '`') {
+        e.preventDefault();
+        setTerminalOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, []);
 
   const gitLink = 'https://github.com/tgidan';
   const mailToLink = 'mailto:professional@verkade.org';
@@ -202,7 +219,14 @@ export default function App() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0a0e1a] text-white overflow-hidden">
+    <div
+      className="min-h-screen bg-[#0a0e1a] text-white overflow-hidden"
+      style={{
+        filter: hueRotate !== null ? `hue-rotate(${hueRotate}deg)` : undefined,
+        transform: isFlipped ? 'rotate(180deg)' : undefined,
+        transition: 'filter 0.6s ease, transform 0.6s ease',
+      }}
+    >
       {/* Animated Background Gradient */}
       <div className="fixed inset-0 bg-gradient-to-br from-[#0a0e1a] via-[#1a1f35] to-[#0a0e1a] -z-10" />
       <div className="fixed inset-0 opacity-30 -z-10">
@@ -810,6 +834,32 @@ export default function App() {
           </div>
         </div>
       </footer>
+
+      {/* Floating terminal toggle button */}
+      <motion.button
+        onClick={() => setTerminalOpen((prev) => !prev)}
+        whileHover={{ scale: 1.1, boxShadow: '0 0 20px rgba(34, 211, 238, 0.4)' }}
+        whileTap={{ scale: 0.95 }}
+        className="fixed bottom-6 right-6 z-40 p-3 bg-[#161b22] border border-cyan-400/30 rounded-full text-cyan-400 hover:border-cyan-400/70 transition-colors"
+        title="Open terminal (Ctrl+`)"
+        aria-label="Toggle terminal"
+      >
+        <Terminal size={20} />
+      </motion.button>
+
+      {/* Matrix rain overlay */}
+      {matrixOn && <MatrixRain />}
+
+      {/* Interactive terminal */}
+      <TerminalPanel
+        isOpen={terminalOpen}
+        onClose={() => setTerminalOpen(false)}
+        onThemeChange={setHueRotate}
+        onFlip={() => setIsFlipped((prev) => !prev)}
+        onMatrixToggle={setMatrixOn}
+        isFlipped={isFlipped}
+        matrixOn={matrixOn}
+      />
     </div>
   );
 }
