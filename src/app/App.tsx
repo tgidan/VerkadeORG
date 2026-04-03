@@ -221,6 +221,7 @@ export default function App() {
   return (
     <div
       className="min-h-screen bg-[#0a0e1a] text-white overflow-hidden"
+      id="home"
       style={{
         filter: hueRotate !== null ? `hue-rotate(${hueRotate}deg)` : undefined,
         transform: isFlipped ? 'rotate(180deg)' : undefined,
@@ -260,7 +261,7 @@ export default function App() {
           className="hidden md:flex gap-8"
           style={{ fontFamily: 'JetBrains Mono, monospace' }}
         >
-          {['About', 'Career', 'Education', 'Projects', 'Writing', 'Contact'].map((item) => (
+          {['Home', 'Skills', 'About', 'Career', 'Education', 'Projects', 'Writing', 'Contact'].map((item) => (
             <motion.button
               key={item}
               onClick={() => {
@@ -487,7 +488,7 @@ export default function App() {
       </section>
 
       {/* Skills Tags */}
-      <section className="py-12 px-6">
+      <section id="skills" className="py-12 px-6">
         <div className="max-w-7xl mx-auto">
           <motion.div
             className="flex flex-wrap gap-3 justify-center"

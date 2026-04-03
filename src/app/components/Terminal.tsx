@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Terminal as TerminalIcon } from 'lucide-react';
+import { Terminal as TerminalIcon } from 'lucide-react';
 
 type LineType = 'input' | 'output' | 'error' | 'success' | 'system';
 
@@ -57,6 +57,8 @@ export function Terminal({
   const [input, setInput] = useState('');
   const [cmdHistory, setCmdHistory] = useState<string[]>([]);
   const [histIdx, setHistIdx] = useState(-1);
+  const [isMinimized, setIsMinimized] = useState(false);
+  const [isMaximized, setIsMaximized] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -85,12 +87,39 @@ export function Terminal({
     const rawArgs = trimmed.slice(cmd.length).trim();
 
     switch (cmd) {
+      case 'cd': {
+        const SECTIONS = ['home', 'about', 'career', 'education', 'projects', 'skills', 'contact'];
+        const target = args[0] ?? '';
+        if (!target) {
+          addLines([
+            mkLine('output', ''),
+            mkLine('output', 'Usage: cd <section>'),
+            mkLine('output', `Sections: ${SECTIONS.join(', ')}`),
+            mkLine('output', ''),
+          ]);
+        } else if (SECTIONS.includes(target)) {
+          document.getElementById(target)?.scrollIntoView({ behavior: 'smooth' });
+          addLines([
+            mkLine('output', ''),
+            mkLine('success', `Navigating to /${target}...`),
+            mkLine('output', ''),
+          ]);
+        } else {
+          addLines([
+            mkLine('error', `cd: ${target}: No such section`),
+            mkLine('output', `Sections: ${SECTIONS.join(', ')}`),
+          ]);
+        }
+        break;
+      }
+
       case 'help':
         addLines([
           mkLine('output', ''),
           mkLine('success', 'Available commands:'),
           mkLine('output', ''),
           mkLine('output', '  help          — show this help'),
+          mkLine('output', '  cd <section>  — navigate to a section'),
           mkLine('output', '  about         — who is Daan?'),
           mkLine('output', '  skills        — list skills'),
           mkLine('output', '  projects      — list projects'),
@@ -510,60 +539,77 @@ export function Terminal({
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 80, opacity: 0 }}
           transition={{ duration: 0.25, ease: 'easeOut' }}
-          className="fixed bottom-0 left-0 right-0 z-50 px-4 pb-4"
+          className={isMaximized
+            ? 'fixed inset-0 z-50 p-0'
+            : 'fixed bottom-0 left-0 right-0 z-50 px-4 pb-4'}
           style={{ fontFamily: '"JetBrains Mono", monospace' }}
-          onClick={() => inputRef.current?.focus()}
+          onClick={() => !isMinimized && inputRef.current?.focus()}
         >
-          <div className="mx-auto max-w-4xl bg-[#0d1117] border border-cyan-400/20 rounded-xl overflow-hidden shadow-2xl shadow-cyan-500/10">
+          <div className={`${isMaximized ? 'h-full rounded-none' : 'mx-auto max-w-4xl rounded-xl'} bg-[#0d1117] border border-cyan-400/20 overflow-hidden shadow-2xl shadow-cyan-500/10 flex flex-col`}>
             {/* Title bar */}
-            <div className="flex items-center justify-between px-4 py-2 bg-[#161b22] border-b border-white/5 select-none">
+            <div className="flex items-center justify-between px-4 py-2 bg-[#161b22] border-b border-white/5 select-none shrink-0">
               <div className="flex items-center gap-3">
-                <div className="flex gap-1.5">
-                  <div className="w-3 h-3 rounded-full bg-red-500/80" />
-                  <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                  <div className="w-3 h-3 rounded-full bg-green-500/80" />
+                <div className="flex gap-1.5 group">
+                  <button
+                    onClick={(e) => { e.stopPropagation(); onClose(); }}
+                    aria-label="Close terminal"
+                    className="w-3 h-3 rounded-full bg-red-500/80 hover:bg-red-500 flex items-center justify-center transition-colors"
+                  >
+                    <span className="hidden group-hover:block text-[8px] leading-none text-red-900 font-bold">×</span>
+                  </button>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setIsMinimized((v) => !v); }}
+                    aria-label="Minimize terminal"
+                    className="w-3 h-3 rounded-full bg-yellow-500/80 hover:bg-yellow-500 flex items-center justify-center transition-colors"
+                  >
+                    <span className="hidden group-hover:block text-[8px] leading-none text-yellow-900 font-bold">−</span>
+                  </button>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setIsMaximized((v) => !v); setIsMinimized(false); }}
+                    aria-label="Maximize terminal"
+                    className="w-3 h-3 rounded-full bg-green-500/80 hover:bg-green-500 flex items-center justify-center transition-colors"
+                  >
+                    <span className="hidden group-hover:block text-[8px] leading-none text-green-900 font-bold">+</span>
+                  </button>
                 </div>
                 <span className="text-xs text-gray-500 flex items-center gap-1.5">
                   <TerminalIcon size={11} />
                   verkade.org — interactive-sh
                 </span>
               </div>
-              <button
-                onClick={(e) => { e.stopPropagation(); onClose(); }}
-                className="text-gray-500 hover:text-white transition-colors p-0.5"
-                aria-label="Close terminal"
-              >
-                <X size={14} />
-              </button>
             </div>
 
-            {/* Output area */}
-            <div className="h-64 overflow-y-auto p-4 text-sm leading-relaxed">
-              {lines.map((l) => (
-                <div key={l.id} className={`${lineClass(l.type)} whitespace-pre-wrap break-all`}>
-                  {l.text}
+            {!isMinimized && (
+              <>
+                {/* Output area */}
+                <div className={`${isMaximized ? 'flex-1' : 'h-64'} overflow-y-auto p-4 text-sm leading-relaxed`}>
+                  {lines.map((l) => (
+                    <div key={l.id} className={`${lineClass(l.type)} whitespace-pre-wrap break-all`}>
+                      {l.text}
+                    </div>
+                  ))}
+                  <div ref={bottomRef} />
                 </div>
-              ))}
-              <div ref={bottomRef} />
-            </div>
 
-            {/* Input row */}
-            <div className="flex items-center gap-2 px-4 py-3 border-t border-white/5">
-              <span className="text-cyan-400 text-sm select-none">$</span>
-              <input
-                ref={inputRef}
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                className="flex-1 bg-transparent text-white text-sm outline-none caret-cyan-400 placeholder:text-gray-600"
-                placeholder="enter command..."
-                autoComplete="off"
-                autoCorrect="off"
-                autoCapitalize="off"
-                spellCheck={false}
-              />
-            </div>
+                {/* Input row */}
+                <div className="flex items-center gap-2 px-4 py-3 border-t border-white/5 shrink-0">
+                  <span className="text-cyan-400 text-sm select-none">$</span>
+                  <input
+                    ref={inputRef}
+                    type="text"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    className="flex-1 bg-transparent text-white text-sm outline-none caret-cyan-400 placeholder:text-gray-600"
+                    placeholder="enter command..."
+                    autoComplete="off"
+                    autoCorrect="off"
+                    autoCapitalize="off"
+                    spellCheck={false}
+                  />
+                </div>
+              </>
+            )}
           </div>
         </motion.div>
       )}
