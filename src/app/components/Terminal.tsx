@@ -247,7 +247,7 @@ export function Terminal({
         } else if (args[0] === '.secret') {
           addLines([
             mkLine('output', ''),
-            mkLine('success', '┌────────────────────────────────────────────┐'),
+            mkLine('success', '┌────────────────────────────────────────────────┐'),
             mkLine('success', '│  You found something hidden.               │'),
             mkLine('success', '│                                            │'),
             mkLine('success', '│  Unlockable commands:                      │'),
@@ -257,7 +257,45 @@ export function Terminal({
             mkLine('success', '│    neofetch      — system information      │'),
             mkLine('success', '│    hack          — go h4x0r                │'),
             mkLine('success', '│    coffee        — much needed             │'),
-            mkLine('success', '└────────────────────────────────────────────┘'),
+            mkLine('success', '└────────────────────────────────────────────────┘'),
+            mkLine('output', ''),
+          ]);
+        } else if (args[0] === '.supersecret') {
+          addLines([
+            mkLine('output', ''),
+            mkLine('success', '┌───────────────────────────────────────────────────────────┐'),
+            mkLine('success', '│  How did you find this???   — ALL COMMANDS           │'),
+            mkLine('success', '├───────────────────────────────────────────────────────────┤'),
+            mkLine('success', '│  PUBLIC                                              │'),
+            mkLine('success', '│    help              — show help                     │'),
+            mkLine('success', '│    cd <section>      — navigate to a section         │'),
+            mkLine('success', '│    about             — who is Daan?                  │'),
+            mkLine('success', '│    skills            — list skills                   │'),
+            mkLine('success', '│    projects          — list projects                 │'),
+            mkLine('success', '│    whoami            — identify yourself             │'),
+            mkLine('success', '│    ls [-a]           — list directory                │'),
+            mkLine('success', '│    cat <file>        — read a file                   │'),
+            mkLine('success', '│    echo <msg>        — echo a message                │'),
+            mkLine('success', '│    ping <host>       — ping a host                   │'),
+            mkLine('success', '│    date              — current date & time           │'),
+            mkLine('success', '│    history           — command history               │'),
+            mkLine('success', '│    clear             — clear the terminal            │'),
+            mkLine('success', '│    exit              — close the terminal            │'),
+            mkLine('success', '├───────────────────────────────────────────────────────────┤'),
+            mkLine('success', '│  HIDDEN                                              │'),
+            mkLine('success', '│    matrix            — enter the matrix              │'),
+            mkLine('success', '│    flip              — flip the world                │'),
+            mkLine('success', '│    theme <color>     — change reality                │'),
+            mkLine('success', '│    neofetch          — system information            │'),
+            mkLine('success', '│    hack              — go h4x0r                      │'),
+            mkLine('success', '│    coffee            — much needed                   │'),
+            mkLine('success', '│    sudo              — escalate privileges           │'),
+            mkLine('success', '│    konami            — you know the code             │'),
+            mkLine('success', '│    hi Daan           — maybe I\'ll say hello back     │'),
+            mkLine('success', '│    hello             — say hello!                    │'),
+            mkLine('success', '│    queen             — who would it be?              │'),
+            mkLine('success', '│    vinci             — An absolute legend!           │'),
+            mkLine('success', '└───────────────────────────────────────────────────────────┘'),
             mkLine('output', ''),
           ]);
         } else if (args[0] === '.matrix') {
@@ -475,6 +513,54 @@ export function Terminal({
         }
         break;
       }
+
+      case 'hi':
+        if (args[0] === 'daan') {
+          addLines([
+            mkLine('output', ''),
+            mkLine('success', 'Hello beautiful. 💙'),
+            mkLine('output', ''),
+          ]);
+        } else {
+          addLines([mkLine('error', `Command not found: ${trimmed}`), mkLine('output', 'Type "help" for available commands.')]);
+        }
+        break;
+
+      case 'hello':
+        addLines([
+          mkLine('output', ''),
+          mkLine('success', 'Hey there, stranger! 👋'),
+          mkLine('output', "You've stumbled into the right terminal."),
+          mkLine('system', 'Welcome to verkade.org. Make yourself at home.'),
+          mkLine('output', ''),
+        ]);
+        break;
+
+      case 'queen':
+        addLines([
+          mkLine('output', ''),
+          mkLine('success', '♛  A special thanks to Ida Slomnicka  ♛'),
+          mkLine('output', ''),
+          mkLine('output', '  The original design of this website was crafted'),
+          mkLine('output', '  by Ida — a talented designer and valued colleague.'),
+          mkLine('output', ''),
+          mkLine('system', '  This one\'s for you. Thank you, Ida. 🙏'),
+          mkLine('output', ''),
+        ]);
+        break;
+
+      case 'vinci':
+        addLines([
+          mkLine('output', ''),
+          mkLine('success', 'Vinci'),
+          mkLine('output', ''),
+          mkLine('output', '  Pro table soccer player, aspiring chef, and all-around legend & CEO.'),
+          mkLine('output', '  The nickname given by my valued colleagues Rik, Petar, and Luuk.'),
+          mkLine('output', ''),
+          mkLine('system', '  Thanks for the laughs and good times. You know who you are. 🙌'),
+          mkLine('output', ''),
+        ]);
+        break;
 
       case 'konami':
         addLines([
