@@ -14,5 +14,5 @@ Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains
 
   # --- CSP (strict for a local-only static site) ---
   # Allows only your own CSS/JS and same-origin images + data: (for small inline icons if needed)
-  Header always set Content-Security-Policy "default-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self'; font-src 'self'; upgrade-insecure-requests"
+  Header always set Content-Security-Policy "default-src 'none'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; upgrade-insecure-requests"
 </IfModule>

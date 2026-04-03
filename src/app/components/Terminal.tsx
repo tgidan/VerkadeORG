@@ -503,6 +503,15 @@ export function Terminal({
             mkLine('success', 'HACK THE PLANET! 🌍'),
             mkLine('output', ''),
           ]);
+        } else if (subcmd === 'request_presence') {
+          const url = `${window.location.origin}/?page=request`;
+          addLines([
+            mkLine('output', ''),
+            mkLine('success', 'Opening presence request form...'),
+            mkLine('output', url),
+            mkLine('output', ''),
+          ]);
+          setTimeout(() => { window.location.href = url; }, 800);
         } else if (subcmd === 'help') {
           addLines([
             mkLine('output', ''),
