@@ -503,11 +503,22 @@ export function Terminal({
             mkLine('success', 'HACK THE PLANET! 🌍'),
             mkLine('output', ''),
           ]);
+        } else if (subcmd === 'help') {
+          addLines([
+            mkLine('output', ''),
+            mkLine('success', 'sudo subcommands:'),
+            mkLine('output', '  make me a sandwich'),
+            mkLine('output', '  rm <file>'),
+            mkLine('output', '  hack the planet'),
+            mkLine('output', '  help'),
+            mkLine('output', ''),
+          ]);
         } else {
           addLines([
             mkLine('output', ''),
             mkLine('error', `sudo: ${args[0] ?? 'command'}: command not found`),
             mkLine('system', "This incident will be reported. (it won't)"),
+            mkLine('system', "Try 'sudo help' for list of subcommands"),
             mkLine('output', ''),
           ]);
         }
