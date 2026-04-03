@@ -34,7 +34,6 @@ const DAY_PICKER_STYLES = `
 export function RequestPage() {
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [submitted, setSubmitted] = useState(false);
-  const [sending, setSending] = useState(false);
 
   const {
     register,
@@ -42,32 +41,25 @@ export function RequestPage() {
     formState: { errors },
   } = useForm<FormData>();
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = (data: FormData) => {
     if (!date) {
       toast.error('Please select a date.');
       return;
     }
 
-    setSending(true);
-    try {
-      const res = await fetch('/send-request.php', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name:   data.name,
-          email:  data.email,
-          date:   format(date, 'PPPP'),
-          reason: data.reason,
-        }),
-      });
+    const body =
+      `Dear Daan Verkade,\n\n` +
+      `I, ${data.name}, require your presence because \n${data.reason}\n\n` +
+      `Sincerely,\n${data.name}\n\n` +
+      `---\nRequested date: ${format(date, 'PPPP')}\nRequester email: ${data.email}`;
 
-      if (!res.ok) throw new Error();
-      setSubmitted(true);
-    } catch {
-      toast.error('Failed to send request. Please try again.');
-    } finally {
-      setSending(false);
-    }
+    const mailto =
+      `mailto:professional@verkade.org` +
+      `?subject=${encodeURIComponent(`Presence Request from ${data.name}`)}` +
+      `&body=${encodeURIComponent(body)}`;
+
+    window.location.href = mailto;
+    setSubmitted(true);
   };
 
   const monoFont = { fontFamily: '"JetBrains Mono", monospace' };
@@ -211,10 +203,9 @@ export function RequestPage() {
           {/* Submit */}
           <button
             type="submit"
-            disabled={sending}
-            className="w-full py-3 px-6 bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 rounded-lg text-sm font-medium hover:bg-cyan-400/20 hover:border-cyan-400/60 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+            className="w-full py-3 px-6 bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 rounded-lg text-sm font-medium hover:bg-cyan-400/20 hover:border-cyan-400/60 transition-all"
           >
-            {sending ? 'Sending...' : 'Send Request'}
+            Send Request
           </button>
         </form>
       </div>
