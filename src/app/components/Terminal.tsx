@@ -88,8 +88,8 @@ export function Terminal({
 
     switch (cmd) {
       case 'cd': {
-        const SECTIONS = ['home', 'about', 'career', 'education', 'projects', 'skills', 'contact'];
-        const target = args[0] ?? '';
+        const SECTIONS = ['home', 'about', 'career & education', 'projects', 'skills', 'contact'];
+        const target = rawArgs.toLowerCase();
         if (!target) {
           addLines([
             mkLine('output', ''),
@@ -195,8 +195,7 @@ export function Terminal({
         addLines([
           mkLine('output', ''),
           mkLine('output', 'drwxr-xr-x  about/'),
-          mkLine('output', 'drwxr-xr-x  career/'),
-          mkLine('output', 'drwxr-xr-x  education/'),
+          mkLine('output', 'drwxr-xr-x  career-&-education/'),
           mkLine('output', 'drwxr-xr-x  projects/'),
           mkLine('output', '-rw-r--r--  about.txt'),
           mkLine('output', '-rw-r--r--  skills.txt'),
