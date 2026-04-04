@@ -5,12 +5,111 @@ import profileImg from '@/assets/DVerkade.png';
 import { Terminal as TerminalPanel } from './components/Terminal';
 import { MatrixRain } from './components/MatrixRain';
 
+const _MONTH: Record<string, number> = {
+  Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
+  Jul: 6, Aug: 7, Sept: 8, Sep: 8, Oct: 9, Nov: 10, Dec: 11,
+};
+
+function _parseDate(s: string): Date | null {
+  if (s === 'Present') return new Date(2026, 3, 1);
+  const m = s.trim().match(/^(\w{3,5})\s+(\d{4})$/);
+  if (!m) return null;
+  const mo = _MONTH[m[1]];
+  const yr = parseInt(m[2]);
+  if (mo === undefined || isNaN(yr)) return null;
+  return new Date(yr, mo, 1);
+}
+
+// Non-linear time scale: compress sparse/single-item segments to keep busy regions dominant.
+function _buildScale(
+  validItems: Array<{ start: Date; end: Date }>,
+  tStart: number,
+  tEnd: number,
+): {
+  t2p: (t: number) => number;
+  compressedSegs: Array<{ leftPct: number; widthPct: number; yrStart: number; yrEnd: number }>;
+} {
+  // All milestone timestamps
+  const pts = Array.from(new Set([
+    tStart, tEnd,
+    ...validItems.flatMap(it => [it.start.getTime(), it.end.getTime()]),
+  ])).sort((a, b) => a - b);
+
+  const THRESHOLD_MS = 13 * 30.44 * 24 * 3600 * 1000; // ~13 months
+  const RATIO = 0.15; // sparse segments get 15% of their natural display width
+
+  type Seg = { s: number; e: number; dur: number; display: number; compressed: boolean };
+  const segs: Seg[] = pts.slice(0, -1).map((s, i) => {
+    const e   = pts[i + 1];
+    const dur = e - s;
+    // "active" = items whose range fully covers this segment
+    const active = validItems.filter(it => it.start.getTime() <= s && it.end.getTime() >= e).length;
+    const compressed = dur > THRESHOLD_MS && active <= 1;
+    return { s, e, dur, display: compressed ? dur * RATIO : dur, compressed };
+  });
+
+  const totalDisplay = segs.reduce((s, g) => s + g.display, 0);
+  // Cumulative display-percent at the START of each segment
+  const cum: number[] = segs.reduce(
+    (acc, seg) => { acc.push(acc[acc.length - 1] + (seg.display / totalDisplay) * 100); return acc; },
+    [0],
+  );
+
+  const t2p = (t: number): number => {
+    if (t <= tStart) return 0;
+    if (t >= tEnd)   return 100;
+    for (let i = 0; i < segs.length; i++) {
+      if (t <= segs[i].e) {
+        const frac = (t - segs[i].s) / segs[i].dur;
+        return cum[i] + frac * (segs[i].display / totalDisplay) * 100;
+      }
+    }
+    return 100;
+  };
+
+  const compressedSegs = segs
+    .map((seg, i) => ({
+      leftPct:  cum[i],
+      widthPct: (seg.display / totalDisplay) * 100,
+      yrStart:  new Date(seg.s).getFullYear(),
+      yrEnd:    new Date(seg.e).getFullYear(),
+      compressed: seg.compressed,
+    }))
+    .filter(s => s.compressed);
+
+  return { t2p, compressedSegs };
+}
+
+function _assignLanes(items: Array<{ start: number; end: number }>): number[] {
+  const laneEnds: number[] = [];
+  const result = new Array(items.length).fill(0);
+  const order = items.map((_, i) => i).sort((a, b) => items[a].start - items[b].start);
+  for (const i of order) {
+    const { start, end } = items[i];
+    let placed = false;
+    for (let l = 0; l < laneEnds.length; l++) {
+      if (laneEnds[l] <= start) {
+        result[i] = l;
+        laneEnds[l] = end;
+        placed = true;
+        break;
+      }
+    }
+    if (!placed) {
+      result[i] = laneEnds.length;
+      laneEnds.push(end);
+    }
+  }
+  return result;
+}
+
 export default function App() {
   const [activeSection, setActiveSection] = useState('about');
   const [terminalOpen, setTerminalOpen] = useState(false);
   const [hueRotate, setHueRotate] = useState<number | null>(null);
   const [isFlipped, setIsFlipped] = useState(false);
   const [matrixOn, setMatrixOn] = useState(false);
+  const [selectedCareer, setSelectedCareer] = useState<number | null>(null);
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
@@ -154,7 +253,7 @@ export default function App() {
       program: 'Computer Science And Engineering (BSc)',
       institution: 'TU Eindhoven',
       location: 'Eindhoven, NL',
-      period: 'Sept 2019 — June 2024',
+      period: 'Sept 2019 — Jun 2024',
       highlights: [
         'Focus areas: software development, algorithms, data structures, computer architecture, operating systems, cryptography, pentesting, and web security.',
         <>
@@ -185,6 +284,62 @@ export default function App() {
       ],
     },
   ];
+
+  // ── Gantt layout computation (career + education combined) ──────────────
+  const _allItems = [
+    ...career.map((item, i) => ({
+      kind:       'career' as const,
+      label:      item.role,
+      sublabel:   item.company,
+      period:     item.period,
+      location:   item.location,
+      highlights: item.highlights,
+      origIdx:    i,
+    })),
+    ...education.map((item, i) => ({
+      kind:       'education' as const,
+      label:      item.program,
+      sublabel:   item.institution,
+      period:     item.period,
+      location:   item.location,
+      highlights: item.highlights,
+      origIdx:    i,
+    })),
+  ];
+  const _parsePeriod = (period: string) => {
+    const parts = period.split(/\s*[–—-]\s*/);
+    return {
+      start: _parseDate(parts[0]?.trim() ?? ''),
+      end:   _parseDate(parts[1]?.trim() ?? ''),
+    };
+  };
+  const _allDates  = _allItems.map(item => _parsePeriod(item.period));
+  const _validIdx  = _allDates
+    .map((d, i) => ({ ...d, i }))
+    .filter(d => d.start && d.end) as Array<{ start: Date; end: Date; i: number }>;
+  const _tStart    = _validIdx.length ? Math.min(..._validIdx.map(d => d.start.getTime())) : 0;
+  const _tEnd      = _validIdx.length ? Math.max(..._validIdx.map(d => d.end.getTime()))   : 1;
+  const { t2p: _t2p, compressedSegs: _compressedSegs } = _buildScale(_validIdx, _tStart, _tEnd);
+  const _lanePer   = _assignLanes(_validIdx.map(d => ({ start: d.start.getTime(), end: d.end.getTime() })));
+  const _ganttItems = _allItems.map((item, i) => {
+    const d    = _allDates[i];
+    const vIdx = _validIdx.findIndex(v => v.i === i);
+    if (vIdx === -1 || !d.start || !d.end) return { ...item, valid: false, lane: 0, left: 0, width: 0 };
+    const left  = _t2p(d.start.getTime());
+    const right = _t2p(d.end.getTime());
+    return {
+      ...item,
+      valid: true,
+      lane:  _lanePer[vIdx],
+      left,
+      width: Math.max(right - left, 1.5),
+    };
+  });
+  const _numLanes  = _lanePer.length ? Math.max(..._lanePer) + 1 : 1;
+  const _startYear = new Date(_tStart).getFullYear();
+  const _endYear   = new Date(_tEnd).getFullYear();
+  const _years     = Array.from({ length: _endYear - _startYear + 2 }, (_, k) => _startYear + k);
+  // ────────────────────────────────────────────────────────────────────────
 
   const projects = [
     {
@@ -562,9 +717,11 @@ export default function App() {
   </div>
 </section>
 
-      {/* Career Section */}
-      <section id="career" className="py-20 px-6 bg-[#0f1421]">
-        <div className="max-w-4xl mx-auto">
+      {/* Career & Education Section – Gantt chart */}
+      <section id="career" className="py-20 bg-[#0f1421] overflow-hidden">
+        {/* anchor so the "Education" nav link still scrolls here */}
+        <div id="education" />
+        <div className="max-w-7xl mx-auto px-6">
           <motion.h2
             style={{ fontFamily: 'Playfair Display, serif' }}
             className="text-6xl mb-12"
@@ -573,123 +730,184 @@ export default function App() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            Career <span className="text-cyan-400">_</span>
+            Career <span className="text-cyan-400">&</span> Education <span className="text-purple-400">_</span>
           </motion.h2>
-
-          <div className="space-y-6">
-            {career.map((item, index) => (
-              <motion.div
-                key={`${item.role}-${item.company}-${item.period}`}
-                className="bg-[#1a1f35]/50 border border-white/5 rounded-xl p-6 hover:border-cyan-400/30 transition-all group"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.15 }}
-                whileHover={{ x: 10, boxShadow: '0 0 30px rgba(34, 211, 238, 0.18)' }}
-              >
-                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-                  <div>
-                    <h3
-                      style={{ fontFamily: 'Space Grotesk, sans-serif' }}
-                      className="text-2xl mb-1 group-hover:text-cyan-400 transition-colors"
-                    >
-                      {item.role}
-                    </h3>
-                    <p style={{ fontFamily: 'JetBrains Mono, monospace' }} className="text-sm text-gray-400">
-                      {item.company} • {item.location}
-                    </p>
-                  </div>
-
-                  <div
-                    style={{ fontFamily: 'JetBrains Mono, monospace' }}
-                    className="text-sm text-gray-400 sm:text-right"
-                  >
-                    {item.period}
-                  </div>
-                </div>
-
-                <ul className="mt-4 space-y-2">
-                  {item.highlights.map((h) => (
-                    <li key={h} className="flex items-start gap-3">
-                      <span className="text-cyan-400 mt-1">▸</span>
-                      <span style={{ fontFamily: 'Space Grotesk, sans-serif' }} className="text-gray-300">
-                        {h}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            ))}
-          </div>
         </div>
-      </section>
 
-            {/* Education Section */}
-      <section id="education" className="py-20 px-6 bg-[#0f1421]">
-        <div className="max-w-4xl mx-auto">
-          <motion.h2
-            style={{ fontFamily: 'Playfair Display, serif' }}
-            className="text-6xl mb-12"
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+        {/* Scrollable Gantt area */}
+        <div className="px-6">
+          <div
+            className="overflow-x-auto"
+            style={{ scrollbarWidth: 'thin', scrollbarColor: 'rgba(34,211,238,0.25) transparent' }}
           >
-            Education <span className="text-purple-400">_</span>
-          </motion.h2>
-
-          <div className="space-y-6">
-            {education.map((item, index) => (
-              <motion.div
-                key={`${item.program}-${item.institution}-${item.period}`}
-                className="bg-[#1a1f35]/50 border border-white/5 rounded-xl p-6 hover:border-purple-400/30 transition-all group"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.15 }}
-                whileHover={{ x: 10, boxShadow: '0 0 30px rgba(168, 85, 247, 0.18)' }}
-              >
-                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-                  <div>
-                    <h3
-                      style={{ fontFamily: 'Space Grotesk, sans-serif' }}
-                      className="text-2xl mb-1 group-hover:text-purple-400 transition-colors"
+            {/* Inner chart — fixed px width so bars are proportional */}
+            <div
+              className="relative"
+              style={{ minWidth: '960px', height: `${_numLanes * 52 + 40}px` }}
+            >
+              {/* Year grid lines + labels */}
+              {_years.map(yr => {
+                const pct = _t2p(new Date(yr, 0, 1).getTime());
+                if (pct < 0 || pct > 100) return null;
+                return (
+                  <div
+                    key={yr}
+                    style={{ position: 'absolute', left: `${pct}%`, top: 0, bottom: 0, width: '1px' }}
+                    className="bg-white/5"
+                  >
+                    <span
+                      style={{
+                        position: 'absolute',
+                        bottom: 4,
+                        left: 4,
+                        fontFamily: 'JetBrains Mono, monospace',
+                      }}
+                      className="text-xs text-gray-600 select-none whitespace-nowrap"
                     >
-                      {item.program}
+                      {yr}
+                    </span>
+                  </div>
+                );
+              })}
+
+              {/* X-axis baseline */}
+              <div
+                className="absolute left-0 right-0 bg-white/10"
+                style={{ bottom: 24, height: '1px' }}
+              />
+
+              {/* Bars */}
+              {_ganttItems.map((item, index) => {
+                if (!item.valid) return null;
+                const isSelected = selectedCareer === index;
+                const isCy = item.kind === 'career';
+                const col = isCy
+                  ? { r: 34,  g: 211, b: 238 }
+                  : { r: 168, g: 85,  b: 247 };
+                const rgba = (a: number) => `rgba(${col.r},${col.g},${col.b},${a})`;
+                return (
+                  <motion.button
+                    key={index}
+                    onClick={() => setSelectedCareer(isSelected ? null : index)}
+                    className="absolute rounded-md border text-left overflow-hidden group focus:outline-none"
+                    style={{
+                      left:         `${item.left}%`,
+                      width:        `${item.width}%`,
+                      top:          `${item.lane * 52}px`,
+                      height:       '40px',
+                      minWidth:     '64px',
+                      paddingLeft:  '8px',
+                      paddingRight: '8px',
+                      borderColor:  isSelected ? rgba(0.75) : rgba(0.18),
+                      background:   isSelected ? rgba(0.18) : rgba(0.07),
+                      boxShadow:    isSelected ? `0 0 20px ${rgba(0.35)}` : 'none',
+                    }}
+                    initial={{ opacity: 0, scaleX: 0.85 }}
+                    whileInView={{ opacity: 1, scaleX: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: index * 0.04 }}
+                    whileHover={{
+                      borderColor: rgba(0.6),
+                      background:  rgba(0.16),
+                      boxShadow:   `0 0 18px ${rgba(0.3)}`,
+                    }}
+                  >
+                    <p
+                      style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+                      className="text-xs font-semibold text-white/80 truncate leading-tight"
+                    >
+                      {item.label}
+                    </p>
+                    <p
+                      style={{ fontFamily: 'JetBrains Mono, monospace' }}
+                      className="text-xs text-gray-500 truncate leading-tight"
+                    >
+                      {item.sublabel}
+                    </p>
+                  </motion.button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Note for items with unparseable dates */}
+        {_ganttItems.some(i => !i.valid) && (
+          <p
+            style={{ fontFamily: 'JetBrains Mono, monospace' }}
+            className="max-w-7xl mx-auto px-6 mt-3 text-xs text-gray-600"
+          >
+            * One or more entries have approximate durations and are omitted from the chart.
+          </p>
+        )}
+
+        {/* Legend */}
+        <div className="max-w-7xl mx-auto px-6 mt-4 flex items-center gap-6">
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-sm bg-cyan-400/40 border border-cyan-400/60" />
+            <span style={{ fontFamily: 'JetBrains Mono, monospace' }} className="text-xs text-gray-500">Career</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-sm bg-purple-400/40 border border-purple-400/60" />
+            <span style={{ fontFamily: 'JetBrains Mono, monospace' }} className="text-xs text-gray-500">Education</span>
+          </div>
+        </div>
+
+        {/* Detail popup */}
+        {selectedCareer !== null && (() => {
+          const sel = _ganttItems[selectedCareer];
+          const isCy = sel.kind === 'career';
+          const accentClass = isCy ? 'text-cyan-300' : 'text-purple-300';
+          const borderStyle = isCy ? 'border-cyan-400/30' : 'border-purple-400/30';
+          const shadowStyle = isCy ? '0 0 40px rgba(34,211,238,0.12)' : '0 0 40px rgba(168,85,247,0.12)';
+          const arrowClass  = isCy ? 'text-cyan-400' : 'text-purple-400';
+          const periodClass = isCy ? 'text-cyan-400'  : 'text-purple-400';
+          return (
+            <motion.div
+              key={selectedCareer}
+              className="max-w-3xl mx-auto mt-8 px-6"
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.25 }}
+            >
+              <div
+                className={`relative rounded-2xl border ${borderStyle} bg-[#1a1f35]/80 p-6`}
+                style={{ boxShadow: shadowStyle }}
+              >
+                <button
+                  onClick={() => setSelectedCareer(null)}
+                  className="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors text-xl leading-none"
+                  aria-label="Close"
+                >
+                  ✕
+                </button>
+                <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4">
+                  <div>
+                    <h3 style={{ fontFamily: 'Space Grotesk, sans-serif' }} className={`text-2xl ${accentClass} mb-1`}>
+                      {sel.label}
                     </h3>
                     <p style={{ fontFamily: 'JetBrains Mono, monospace' }} className="text-sm text-gray-400">
-                      {item.institution} • {item.location}
+                      {sel.sublabel} • {sel.location}
                     </p>
                   </div>
-
-                  <div
-                    style={{ fontFamily: 'JetBrains Mono, monospace' }}
-                    className="text-sm text-gray-400 sm:text-right"
-                  >
-                    {item.period}
-                  </div>
+                  <span style={{ fontFamily: 'JetBrains Mono, monospace' }} className={`text-sm ${periodClass} whitespace-nowrap`}>
+                    {sel.period}
+                  </span>
                 </div>
-
-                <ul className="mt-4 space-y-2">
-                  {item.highlights.map((h, idx) => (
-                    <li
-                      key={`${item.program}-h-${idx}`}
-                      className="flex items-start gap-3 min-w-0"
-                    >
-                      <span className="text-purple-400 mt-1 shrink-0">▸</span>
-                      <span
-                        style={{ fontFamily: 'Space Grotesk, sans-serif' }}
-                        className="text-gray-300 min-w-0 break-words overflow-hidden"
-                      >
+                <ul className="space-y-2">
+                  {sel.highlights.map((h, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <span className={`${arrowClass} mt-1`}>▸</span>
+                      <span style={{ fontFamily: 'Space Grotesk, sans-serif' }} className="text-gray-300 text-sm">
                         {h}
                       </span>
                     </li>
                   ))}
                 </ul>
-              </motion.div>
-            ))}
-          </div>
-        </div>
+              </div>
+            </motion.div>
+          );
+        })()}
       </section>
 
       {/* Projects Section */}
