@@ -225,13 +225,21 @@ export default function App() {
       ],
     },
     {
-      role: 'Active member',
-      company: 'Other assocations and communities',
+      role: 'Chairman PR committee',
+      company: 'AEGEE Eindhoven',
       location: 'Netherlands, Eindhoven',
-      period: '1 year',
+      period: 'Nov 2020 - Mar 2022',
       highlights: [
-        'AEGEE Eindhoven - Chairman of PR committee: Responsible for promotion of activites and design of promotional material and merchandise.',
-        'Eindhoven Student Golf Association De Club - Treasurer Activities Committee: Organized monthly activity for all members to attend '
+        'Responsible for promotion of activites and design of promotional material and merchandise.',
+      ],
+    },
+    {
+      role: 'Treasurer Activities Committee',
+      company: 'Eindhoven Student Golf Association De Club',
+      location: 'Netherlands, Eindhoven',
+      period: 'Jul 2024 - Jul 2025',
+      highlights: [
+        'Organized monthly activity for all members to attend'
       ],
     },
 
@@ -253,7 +261,7 @@ export default function App() {
       program: 'Computer Science And Engineering (BSc)',
       institution: 'TU Eindhoven',
       location: 'Eindhoven, NL',
-      period: 'Sept 2019 — Jun 2024',
+      period: 'Sept 2019 — Aug 2024',
       highlights: [
         'Focus areas: software development, algorithms, data structures, computer architecture, operating systems, cryptography, pentesting, and web security.',
         <>
@@ -416,7 +424,7 @@ export default function App() {
           className="hidden md:flex gap-8"
           style={{ fontFamily: 'JetBrains Mono, monospace' }}
         >
-          {['Home', 'Skills', 'About', 'Career', 'Education', 'Projects', 'Writing', 'Contact'].map((item) => (
+          {['Home', 'Skills', 'About', 'Career & Education', 'Projects', 'Writing', 'Contact'].map((item) => (
             <motion.button
               key={item}
               onClick={() => {
@@ -718,9 +726,9 @@ export default function App() {
 </section>
 
       {/* Career & Education Section – Gantt chart */}
-      <section id="career" className="py-20 bg-[#0f1421] overflow-hidden">
+      <section id="career & education" className="py-20 bg-[#0f1421] overflow-hidden">
         {/* anchor so the "Education" nav link still scrolls here */}
-        <div id="education" />
+        <div id="career & education" />
         <div className="max-w-7xl mx-auto px-6">
           <motion.h2
             style={{ fontFamily: 'Playfair Display, serif' }}
