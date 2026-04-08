@@ -373,6 +373,28 @@ export default function App() {
         "In the future, I plan to explore more of the Flipper's capabilities and see how it can be used in different scenarios."
       ]
     },
+    {
+      title: 'Vinci Dash',
+      link: 'https://www.dashboard.verkade.org',
+      description: [
+        "Vinci Dash is a personal dashboard I built as a centralized hub for real-time information at a glance.",
+        "It features a live weather module, a cybersecurity news feed that aggregates from multiple sources, and a system clock; all designed for quick situational awareness.",
+        "The project was driven by my desire to have a single interface that provides information I care about without needing to open multiple apps or websites.",
+        "This dashboard can be used in combination with Wallpaper Engine to create a dynamic, interactive, and informative desktop background, or it can be accessed via a web browser for quick updates throughout the day.",
+        "I use the browser version on my phone as a quick way to check the weather and news when I'm on the go.",
+        "For more details about the implementation, you can check out my repository on Github:", 
+        <>
+          <a
+              href="https://github.com/tgidan/Home_Dashboard"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-cyan-400 hover:underline break-words"
+            >
+              Home Dashboard.
+            </a>
+        </>,
+      ]
+    },
   ];
 
 
@@ -958,6 +980,17 @@ export default function App() {
                       {paragraph}
                     </p>
                   ))}
+                  {'link' in project && project.link && (
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ fontFamily: 'JetBrains Mono, monospace' }}
+                      className="inline-block mt-1 text-sm text-purple-400 hover:text-purple-300 transition-colors"
+                    >
+                      {project.link} →
+                    </a>
+                  )}
                 </div>
               </motion.div>
             ))}
