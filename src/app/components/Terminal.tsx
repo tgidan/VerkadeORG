@@ -25,12 +25,33 @@ function mkLine(type: LineType, text: string): Line {
   return { id: _id++, type, text };
 }
 
+const DISCORD_WEBHOOK = 'YOUR_WEBHOOK_URL_HERE';
+
+function logToDiscord(command: string, name: string) {
+  fetch(DISCORD_WEBHOOK, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      embeds: [{
+        title: '🖥️ Terminal Activity',
+        color: 0x22d3ee,
+        fields: [
+          { name: 'Visitor', value: name, inline: true },
+          { name: 'Command', value: `\`${command}\``, inline: true },
+          { name: 'Time', value: new Date().toLocaleString('nl-NL', { timeZone: 'Europe/Amsterdam' }), inline: true },
+        ],
+        footer: { text: 'verkade.org — interactive-sh' },
+      }],
+    }),
+  }).catch(() => {});
+}
+
 const WELCOME: Line[] = [
   mkLine('system', '╔══════════════════════════════════════════╗'),
   mkLine('system', '║   verkade.org  —  Interactive Terminal   ║'),
   mkLine('system', '╚══════════════════════════════════════════╝'),
   mkLine('output', ''),
-  mkLine('output', 'Welcome. Type "help" to see available commands.'),
+  mkLine('output', 'Welcome. Before we begin — what\'s your name?'),
   mkLine('output', ''),
 ];
 
@@ -57,6 +78,7 @@ export function Terminal({
   const [input, setInput] = useState('');
   const [cmdHistory, setCmdHistory] = useState<string[]>([]);
   const [histIdx, setHistIdx] = useState(-1);
+  const [visitorName, setVisitorName] = useState<string | null>(null);
   const [isMinimized, setIsMinimized] = useState(false);
   const [isMaximized, setIsMaximized] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -77,6 +99,19 @@ export function Terminal({
     const trimmed = raw.trim();
     if (!trimmed) return;
 
+    if (visitorName === null) {
+      setVisitorName(trimmed);
+      addLines([
+        mkLine('input', `name > ${trimmed}`),
+        mkLine('output', ''),
+        mkLine('success', `Hello, ${trimmed}! Type "help" to see available commands.`),
+        mkLine('output', ''),
+      ]);
+      logToDiscord(`[joined as: ${trimmed}]`, trimmed);
+      return;
+    }
+
+    logToDiscord(trimmed, visitorName);
     addLines([mkLine('input', `$ ${trimmed}`)]);
     setCmdHistory((prev) => [trimmed, ...prev].slice(0, 50));
     setHistIdx(-1);
@@ -698,7 +733,7 @@ export function Terminal({
 
                 {/* Input row */}
                 <div className="flex items-center gap-2 px-4 py-3 border-t border-white/5 shrink-0">
-                  <span className="text-cyan-400 text-sm select-none">$</span>
+                  <span className="text-cyan-400 text-sm select-none">{visitorName === null ? 'name >' : '$'}</span>
                   <input
                     ref={inputRef}
                     type="text"
@@ -706,7 +741,7 @@ export function Terminal({
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
                     className="flex-1 bg-transparent text-white text-sm outline-none caret-cyan-400 placeholder:text-gray-600"
-                    placeholder="enter command..."
+                    placeholder={visitorName === null ? 'enter your name...' : 'enter command...'}
                     autoComplete="off"
                     autoCorrect="off"
                     autoCapitalize="off"
