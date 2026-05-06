@@ -9,7 +9,7 @@
 
   function Root() {
     if (page === 'request') return <RequestPage />;
-    if (page === 'GEWIS') return <GEWISPage />;
+    if (page?.toUpperCase() === 'GEWIS') return <GEWISPage />;
     return <App />;
   }
 
