@@ -13,6 +13,10 @@
 // Each <Step> accepts an optional `image` + `imageAlt` prop — that's all you need.
 // ─────────────────────────────────────────────────────────────────────────────
 
+import Route_to_mf from '@/assets/gewis/Route_to_mf.png';
+import Metaforum_outside from '@/assets/gewis/Metaforum-buiten.webp';
+import GEWIS_Room from '@/assets/gewis/GEWIS_Room.webp';
+
 const monoFont = { fontFamily: '"JetBrains Mono", monospace' };
 const serifFont = { fontFamily: '"Playfair Display", serif' };
 
@@ -45,7 +49,7 @@ function Step({ number, title, description, image, imageAlt }: StepProps) {
           <img
             src={image}
             alt={imageAlt ?? title}
-            className="w-full object-cover max-h-72"
+            className="w-full object-cover max-h-100"
           />
         </div>
       )}
@@ -88,7 +92,7 @@ export function GEWISPage() {
         <div className="mb-8 p-4 rounded-lg bg-cyan-400/5 border border-cyan-400/15">
           <p className="text-gray-300 text-sm leading-relaxed">
             GEWIS is the study association for Mathematics &amp; Computer Science students at
-            Eindhoven University of Technology (TU/e). Follow the steps below to find us.
+            Eindhoven University of Technology (TU/e). Follow the steps below to find it.
           </p>
         </div>
 
@@ -101,42 +105,34 @@ export function GEWISPage() {
         <div className="space-y-4">
           <Step
             number={1}
-            title="Arrive at TU/e Campus"
-            description="Head to the Eindhoven University of Technology campus. The main entrance is on De Rondom, accessible from the city centre by bus lines 16, 17, and 18, or a 15-minute walk from Eindhoven Centraal station."
-            // image={step1Image}
+            title="From Eindhoven Centraal, to MetaForum"
+            description="Start at Eindhoven Centraal station. Exit the station on the north side. It's about a 10-minute walk to MetaForum. "
+            image={Route_to_mf}
             // imageAlt="TU/e campus entrance on De Rondom"
           />
 
           <Step
             number={2}
             title="Find MetaForum (MF)"
-            description="Once on campus, navigate to the MetaForum building — it is the large modern building near the centre of campus. Look for the 'MF' signs on the campus map boards."
-            // image={step2Image}
+            description="Once on campus, navigate to the MetaForum building. It looks a bit like Piet Mondriaan was busy designing it. You'll see the building when you follow the route from step 1 right in front of you."            
+            image={Metaforum_outside}
             // imageAlt="MetaForum building exterior"
           />
 
           <Step
             number={3}
-            title="Enter MetaForum and go to floor 4"
-            description="Walk into MetaForum through the main entrance. Take the stairs or elevator to the 4th floor. You will see department offices and study spaces along the corridor."
-            // image={step3Image}
+            title="Enter MetaForum and go to floor 3"
+            description="Walk into MetaForum through the main entrance. Take the stairs or elevator to the 3rd floor. When exiting the stairs/ elevator you should see a door stopping you. If it is closed, call +31 40 247 2815. Otherwise go through the door, go left, go through the other door and take a right"
+            // image={step3Image} TODO: Add photo
             // imageAlt="MetaForum entrance and elevator area"
           />
 
           <Step
             number={4}
-            title="Locate the GEWIS room"
-            description="On the 4th floor, follow the signs for GEWIS (MF 4.058). The GEWIS room has a distinctive door — you will recognise it when you see it."
-            // image={step4Image}
+            title="THE GEWIS ROOM"
+            description="Congrats! You found the GEWIS room and all glory associated with it. The beautiful red walls, the bar, the discobal, now you can finally get that drink you were promised." 
+            image={GEWIS_Room}
             // imageAlt="GEWIS room door on MF floor 4"
-          />
-
-          <Step
-            number={5}
-            title="You made it — ring the bell or knock"
-            description="If the door is closed, ring the doorbell or knock. Members are usually around during working hours. You can also check the GEWIS website for activity hours before visiting."
-            // image={step5Image}
-            // imageAlt="GEWIS room interior"
           />
         </div>
 
