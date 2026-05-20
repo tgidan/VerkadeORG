@@ -16,6 +16,8 @@
 import Route_to_mf from '@/assets/gewis/Route_to_mf.png';
 import Metaforum_outside from '@/assets/gewis/Metaforum-buiten.webp';
 import GEWIS_Room from '@/assets/gewis/GEWIS_Room.webp';
+import metaforumFloor0 from '@/assets/gewis/metaforumFloor0.jpg';
+import metaForum3 from '@/assets/gewis/metaForum3.jpeg';
 
 const monoFont = { fontFamily: '"JetBrains Mono", monospace' };
 const serifFont = { fontFamily: '"Playfair Display", serif' };
@@ -122,13 +124,21 @@ export function GEWISPage() {
           <Step
             number={3}
             title="Enter MetaForum and go to floor 3"
-            description="Walk into MetaForum through the main entrance. Take the stairs or elevator to the 3rd floor. When exiting the stairs/ elevator you should see a door stopping you. If it is closed, call +31 40 247 2815. Otherwise go through the door, go left, go through the other door and take a right"
-            // image={step3Image} TODO: Add photo
+            description="Walk into MetaForum through the main entrance. Take the stairs or elevator to the 3rd floor. You should be able both on the right side after entering. Look for the reception as seen in the picture. The stairs are there as well. The elevator is across the stairs. The elevators won't take you to floors higher or equal to three without a keycard with approval after 18:00, so if you have trouble with the elevator, take the stairs."
+            image={metaforumFloor0} 
             // imageAlt="MetaForum entrance and elevator area"
           />
 
           <Step
             number={4}
+            title="Walk towards the GEWIS room"
+            description="When exiting the stairs/ elevator you should see a door stopping you on the third floor. If it is closed, call +31 40 247 2815 or call me. Otherwise go through the door, go left, go through the other door and take a right"
+            image={metaForum3}
+            // imageAlt="MetaForum entrance and elevator area"
+          />
+
+          <Step
+            number={5}
             title="THE GEWIS ROOM"
             description="Congrats! You found the GEWIS room and all glory associated with it. The beautiful red walls, the bar, the discobal, now you can finally get that drink you were promised." 
             image={GEWIS_Room}
