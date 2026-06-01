@@ -11,7 +11,7 @@ const _MONTH: Record<string, number> = {
 };
 
 function _parseDate(s: string): Date | null {
-  if (s === 'Present') return new Date(2026, 3, 1);
+  if (s === 'Present') return new Date();
   const m = s.trim().match(/^(\w{3,5})\s+(\d{4})$/);
   if (!m) return null;
   const mo = _MONTH[m[1]];
@@ -148,6 +148,16 @@ export default function App() {
         'Implemented K6 load tests to measure API calls response times and reliability.',
         'Worked with developers to improve testability and reliability.',
         'Great cook that made delicious meals for the entire company on a regular basis.',
+      ],
+    },
+    {
+      role: 'Internship SOC Analyst',
+      company: 'ESH-SOC',
+      location: 'Netherlands, Eindhoven',
+      period: 'Apr 2026 - Present',
+      highlights: [
+        'Analyzed network traffic to detect potential security threats as a Tier 1 analyst in a Security Operations Centre (SOC). Monitored and triaged security incidents in a fast-paced environment, collaborating with experts across different areas.',
+        'My project assignment is developing Detection rules for malware/tools used by APTs.',
       ],
     },
     {
@@ -393,6 +403,18 @@ export default function App() {
               Home Dashboard.
             </a>
         </>,
+      ]
+    },
+    {
+      title: 'The Big Downloader & Converter Program',
+      link: 'https://github.com/tgidan/The-Big-Downloader-And-Converter-Program',
+      description: [
+        "At some point I got annoyed by all the YouTube and file converters on the internet. Most of them aren't open source and deliver mediocre quality.",
+        "For instance, downloading a YouTube video from a converter website results in bad audio and image quality because the website wants to conserve the data needed for the download.",
+        "This tool (still under development) has the goal to relieve us from all this blackbox noncense and create software that is well documented and cloneable by all. Current tested features include downloading YouTube videos in the formats available by the tool yt-dlp. Normally YouTube does this normalizing process, but the raw files don't have this luxury. As yt-dlp downloads the raw YouTube files, I have also included an audio loudness feature that can make YouTube videos as loud as you want.",
+        "It is also possible to queue multiple videos for downloading.",
+        "There is still the eventual goal to make this program run as an executable. Also the support of converting file types to other file types is still a goal I want to achieve with this tool.",
+        "For more details about the implementation, you can check out my repository on Github:", 
       ]
     },
   ];
