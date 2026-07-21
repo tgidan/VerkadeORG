@@ -154,10 +154,11 @@ export default function App() {
       role: 'Internship SOC Analyst',
       company: 'ESH-SOC',
       location: 'Netherlands, Eindhoven',
-      period: 'Apr 2026 - Present',
+      period: 'Apr 2026 - Jul 2026',
       highlights: [
         'Analyzed network traffic to detect potential security threats as a Tier 1 analyst in a Security Operations Centre (SOC). Monitored and triaged security incidents in a fast-paced environment, collaborating with experts across different areas.',
         'My project assignment is developing Detection rules for malware/tools used by APTs.',
+        'A side project created during rule writing, was fixing the transformations occuring within the Sigma pipeline for Windows systems.' 
       ],
     },
     {
@@ -201,7 +202,7 @@ export default function App() {
       role: 'Internship - Mathematical Teacher',
       company: 'Aloysius de Roosten',
       location: 'Netherlands, Eindhoven',
-      period: 'Feb 2020 - May 2021',
+      period: 'Feb 2021 - May 2021',
       highlights: [
         'This internship served to gain understanding of who I wanted to become as a teacher and what school I would like to work at.',
         'Gave a few hours worth of mathematics classes to 3th year vmbo-t students.',
